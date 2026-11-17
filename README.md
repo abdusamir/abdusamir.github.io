@@ -1,3 +1,3 @@
 # abdusamir.github.io
 
-Personal portfolio of Abdelrahman Ahmed. Plain HTML/CSS, served by GitHub Pages.
+Personal portfolio of Abdulrahman Ahmed. Built with React and Material UI, served by GitHub Pages.
