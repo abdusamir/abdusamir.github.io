@@ -12,7 +12,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Noto+Naskh+Arabic:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   html { scroll-behavior: smooth; }
   body { margin: 0; background: #F4F1EA; }
@@ -115,7 +115,7 @@ const NODES = {
   app:    { x: 46,  y: 150, label: "Mobile app", note: "The My Vodafone app (Italy). Millions of customers, and every screen is backed by an API my team owns." },
   api:    { x: 150, y: 150, label: "OpenAPI", note: "API-first: we agree the contract in OpenAPI with the mobile team, generate code from it, then build." },
   router: { x: 262, y: 62,  label: "Routers", note: "7+ router models from 2 vendors behind one API, chosen at runtime with a Strategy/Factory design." },
-  sim:    { x: 262, y: 150, label: "SIM / eSIM", note: "eSIM classification for a new SIM variant, including a missing-code case that would have broken the SIM PIN screen." },
+  sim:    { x: 262, y: 150, label: "SIM / eSIM", note: "SIM and eSIM classification that decides which flows a customer gets in the app, extended as new SIM variants launch." },
   ticket: { x: 262, y: 238, label: "Tickets", note: "Support-ticket messages. Home of the 15,000-row key collision I traced and fixed (see the case files)." },
   kafka:  { x: 370, y: 62,  label: "Kafka", note: "Event streams between services. I've used Kafka for event-driven work since 2022." },
   mongo:  { x: 370, y: 150, label: "MongoDB", note: "Configuration and content data. Where key design really matters." },
@@ -167,12 +167,12 @@ function SystemMap() {
 const CASES = [
   {
     id: "collision", tag: "Production incident", title: "The 15,000-row key collision",
-    stack: ["MongoDB", "Spring Boot", "WireMock", "Datadog"],
+    stack: ["MongoDB", "Spring Boot", "Datadog"],
     blocks: [
       ["Symptom", "Customers were seeing the wrong messages on their support tickets. Nothing was crashing, the data just looked wrong."],
       ["Cause", "A scheduled sync job built its MongoDB keys in a way that let different configuration entries collide, across roughly 15,000 rows."],
       ["Fix", "I redesigned the composite key, agreed the matching rule with the client, and added cleanup for stale documents. The cleanup has a guard: if the CMS response is empty, failed or partial, it deletes nothing."],
-      ["Proof", "Mocked the CMS with WireMock and passed all 5 acceptance cases end to end, checked against the Datadog logs."],
+      ["Result", "Each configuration entry now maps to exactly one message, and a failed or partial sync no longer deletes anything."],
     ],
   },
   {
@@ -181,17 +181,17 @@ const CASES = [
     blocks: [
       ["Problem", "The app has to manage 7+ home-router models from ZTE and Sercomm. Every vendor API is slightly different from the reference spec."],
       ["Approach", "I audited each vendor spec against the reference device spec and turned every deviation into code or a feature gate. The models sit behind one API, picked at runtime by device type, and the duplicated vendor services now share one base class."],
-      ["Bonus", "While shipping a QR-code onboarding endpoint for EasyMesh boosters, I found a bug in the shared HTTP client that would have turned every successful install into a 503."],
+      ["Also", "I built connectivity for Fixed Wireless Access and legacy routers over a VPN route that bypasses the SOAP remote-access service, and a QR-code onboarding endpoint for EasyMesh boosters with a contract agreed with the mobile team first."],
       ["Result", "New device types can ship dark behind app-version gating and be switched on when they're ready."],
     ],
   },
   {
-    id: "release", tag: "Engineering quality", title: "230 lint errors between us and a release",
-    stack: ["Checkstyle", "Gradle", "SonarQube", "Claude Code"],
+    id: "tooling", tag: "Developer productivity", title: "Teaching Claude Code our runbooks",
+    stack: ["Claude Code", "Python", "Datadog", "Jenkins"],
     blocks: [
-      ["Problem", "A release was blocked by 230+ Checkstyle violations across 60+ files, and Gradle builds broke when a platform plugin was removed from Artifactory."],
-      ["Fix", "Cleared every violation while keeping all 312 tests green, unblocked the builds across repos, and raised SonarQube coverage to pass the quality gate."],
-      ["Then", "I automated the repetitive parts. I built 6 Claude Code skills with Python tooling that the team uses for incident triage (condensing Datadog logs, redacting JWTs, matching known failures), test-environment checks, CI diagnosis and release readiness."],
+      ["Problem", "A lot of the team's time went into the same investigations: reading through Datadog logs during incidents, checking test environments by hand, working out why a pipeline failed, and deciding whether a release was ready."],
+      ["What I built", "6 Claude Code agent skills backed by Python tooling. Incident triage condenses Datadog logs, redacts JWTs and matches known failure patterns. Others validate test environments with PASS/FAIL reports, diagnose CI failures, check release readiness and report workspace status."],
+      ["Why it matters", "The knowledge that used to live in a few people's heads is now written down as skills the whole team can run."],
     ],
   },
 ];
@@ -202,7 +202,7 @@ const JOBS = [
   { when: "May 2025 – Apr 2026", role: "Software Engineer", org: "BitBang LLC", where: "Cairo",
     text: "Enterprise billing platform: subscription lifecycle and expiry, plus high-volume background jobs I sped up with multi-threading, locking and error aggregation. Spring Boot, PostgreSQL, RabbitMQ." },
   { when: "Aug 2022 – Jun 2025", role: "Software Engineer", org: "Ejada Systems", where: "Cairo",
-    text: "Spring Boot backends for enterprise clients on OpenShift. Brought in Kafka for event-driven processing and Redis caching for peak load, and untangled circular dependencies in subscription workflows." },
+    text: "Spring Boot backends for enterprise clients on OpenShift. Brought in Kafka for event-driven processing and Redis caching for peak load." },
   { when: "2017 – 2022", role: "B.Sc. Computer Engineering", org: "Ain Shams University", where: "Cairo",
     text: "Thesis on accelerating scientific applications with GPUs (CUDA, OpenCL). Plus two Udacity nanodegrees in front-end and full-stack JavaScript." },
 ];
@@ -255,7 +255,6 @@ function Hero({ onCopy }) {
     <${Container} maxWidth="lg" id="top" sx=${{ pt: { xs: 7, md: 11 }, pb: { xs: 8, md: 12 } }}>
       <${Grid} container spacing=${{ xs: 6, md: 8 }} alignItems="center">
         <${Grid} item xs=${12} md=${7}>
-          <${Typography} lang="ar" dir="rtl" sx=${{ fontFamily: '"Noto Naskh Arabic", serif', fontSize: 22, color: "text.secondary", textAlign: "left", mb: 1 }}>عبدالرحمن أحمد<//>
           <${Typography} variant="h1" sx=${{ fontSize: { xs: 56, sm: 80, md: 96 } }}>
             Abdelrahman<br />
             <${Box} component="span" sx=${{ fontStyle: "italic", fontWeight: 400, color: "primary.main" }}>Ahmed<//>
@@ -470,7 +469,6 @@ function App() {
           <${Container} maxWidth="lg">
             <${Stack} direction=${{ xs: "column", sm: "row" }} justifyContent="space-between" sx=${{ gap: 1 }}>
               <${Typography} variant="body2" color="text.secondary">© ${new Date().getFullYear()} Abdelrahman Ahmed · Cairo, Egypt<//>
-              <${Typography} variant="body2" color="text.secondary" sx=${{ fontFamily: mono }}>React + Material UI<//>
             <//>
           <//>
         <//>
