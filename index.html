@@ -4,287 +4,484 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Abdelrahman Ahmed · Backend Engineer</title>
-<meta name="description" content="Abdelrahman Ahmed is a senior backend engineer in Cairo who builds Java and Spring Boot microservices for telecom and billing platforms.">
+<meta name="description" content="Abdelrahman Ahmed, backend engineer in Cairo. Java, Spring Boot, Kafka and AWS for telecom and billing platforms.">
 <meta property="og:title" content="Abdelrahman Ahmed · Backend Engineer">
-<meta property="og:description" content="Senior backend engineer: Java 21, Spring Boot, Kafka, AWS. Telecom and billing platforms.">
+<meta property="og:description" content="Backend engineer in Cairo. Java 21, Spring Boot, Kafka, AWS. Telecom and billing platforms.">
+<meta property="og:url" content="https://abdulrahmanahmed.dev/">
 <meta property="og:type" content="website">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Noto+Naskh+Arabic:wght@500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #fbfbfa; --surface: #ffffff; --text: #1a1a1a; --muted: #5f6368;
-  --line: #e7e5e2; --accent: #1f5fbf; --accent-soft: #e8effa; --chip: #f1f0ee;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0f1113; --surface: #16191c; --text: #e8e6e3; --muted: #9aa0a6;
-    --line: #262a2f; --accent: #7aa7f0; --accent-soft: #1a2638; --chip: #1e2226;
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #0f1113; --surface: #16191c; --text: #e8e6e3; --muted: #9aa0a6;
-  --line: #262a2f; --accent: #7aa7f0; --accent-soft: #1a2638; --chip: #1e2226;
-}
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body {
-  margin: 0; background: var(--bg); color: var(--text);
-  font: 16px/1.65 Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
-  -webkit-font-smoothing: antialiased;
-}
-a { color: var(--accent); text-decoration: none; }
-a:hover { text-decoration: underline; }
-.wrap { max-width: 760px; margin: 0 auto; padding: 0 20px; }
-
-/* nav */
-nav { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent);
-  backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
-nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 56px; }
-.brand { font-weight: 600; color: var(--text); white-space: nowrap; }
-.links { display: flex; gap: 22px; align-items: center; font-size: 14px; }
-.links a { color: var(--muted); }
-.links a:hover { color: var(--text); text-decoration: none; }
-#theme { background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 8px;
-  width: 32px; height: 32px; cursor: pointer; display: grid; place-items: center; }
-#theme:hover { color: var(--text); }
-@media (max-width: 600px) { .links a.opt { display: none; } .links { gap: 16px; } }
-
-/* hero */
-header.hero { padding: 88px 0 56px; }
-.hero .eyebrow { font: 500 13px/1 "JetBrains Mono", monospace; color: var(--accent); letter-spacing: .02em; }
-.hero h1 { font-size: clamp(34px, 6vw, 48px); line-height: 1.1; margin: 14px 0 18px; letter-spacing: -.02em; }
-.hero p.lede { font-size: 18px; color: var(--muted); max-width: 600px; margin: 0 0 28px; }
-.cta { display: flex; flex-wrap: wrap; gap: 10px; }
-.btn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 8px;
-  font-size: 14px; font-weight: 500; border: 1px solid var(--line); color: var(--text); background: var(--surface); }
-.btn:hover { text-decoration: none; border-color: var(--muted); }
-.btn.primary { background: var(--text); color: var(--bg); border-color: var(--text); }
-.btn svg { width: 16px; height: 16px; }
-.status { margin-top: 26px; font-size: 14px; color: var(--muted); display: flex; align-items: center; gap: 8px; }
-.dot { width: 8px; height: 8px; border-radius: 50%; background: #2ea44f; box-shadow: 0 0 0 3px color-mix(in srgb, #2ea44f 25%, transparent); }
-
-/* sections */
-section { padding: 48px 0; border-top: 1px solid var(--line); }
-h2 { font-size: 13px; font-family: "JetBrains Mono", monospace; font-weight: 500; text-transform: uppercase;
-  letter-spacing: .08em; color: var(--muted); margin: 0 0 28px; }
-h3 { font-size: 17px; margin: 0; font-weight: 600; }
-
-/* experience */
-.job { display: grid; grid-template-columns: 150px 1fr; gap: 20px; margin-bottom: 36px; }
-.job:last-child { margin-bottom: 0; }
-.when { font-size: 14px; color: var(--muted); padding-top: 2px; }
-.org { color: var(--muted); font-size: 15px; margin: 2px 0 10px; }
-.job ul { margin: 0; padding-left: 18px; }
-.job li { margin-bottom: 6px; }
-.job li::marker { color: var(--muted); }
-@media (max-width: 600px) { .job { grid-template-columns: 1fr; gap: 4px; } }
-
-.tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
-.tag { font: 12px/1 "JetBrains Mono", monospace; background: var(--chip); color: var(--muted);
-  padding: 5px 8px; border-radius: 6px; }
-
-/* projects */
-.grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
-@media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
-.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px;
-  display: flex; flex-direction: column; transition: border-color .15s, transform .15s; }
-.card:hover { border-color: var(--muted); transform: translateY(-2px); }
-.card p { color: var(--muted); font-size: 15px; margin: 8px 0 0; flex: 1; }
-.card .head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
-.card .head a { font-size: 13px; white-space: nowrap; }
-.card.wide { grid-column: 1 / -1; }
-
-/* skills */
-.skills { display: grid; grid-template-columns: 150px 1fr; gap: 14px 20px; }
-.skills dt { color: var(--muted); font-size: 14px; padding-top: 3px; }
-.skills dd { margin: 0; }
-.skills .tags { margin-top: 0; }
-@media (max-width: 600px) { .skills { grid-template-columns: 1fr; gap: 4px; } .skills dd { margin-bottom: 14px; } }
-
-.edu p { margin: 4px 0 0; color: var(--muted); font-size: 15px; }
-.edu .item { margin-bottom: 22px; }
-
-/* contact */
-.contact p { color: var(--muted); max-width: 560px; margin: 0 0 22px; }
-footer { padding: 32px 0 48px; color: var(--muted); font-size: 13px; border-top: 1px solid var(--line); }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: #F4F1EA; }
+  @media (prefers-color-scheme: dark) { body { background: #0E1211; } }
+  #root:empty::after { content: "Abdelrahman Ahmed · Backend Engineer"; display: block; padding: 40px 20px; font: 600 24px Georgia, serif; color: #888; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .flow { display: none; } }
 </style>
-<script>
-  try { const t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
-</script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@mui/material@5.16.7/umd/material-ui.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/htm@3.1.1/dist/htm.umd.js" crossorigin></script>
 </head>
 <body>
-
-<nav>
-  <div class="wrap">
-    <a class="brand" href="#top">Abdelrahman Ahmed</a>
-    <div class="links">
-      <a class="opt" href="#experience">Experience</a>
-      <a href="#projects">Projects</a>
-      <a class="opt" href="#skills">Skills</a>
-      <a href="#contact">Contact</a>
-      <button id="theme" aria-label="Toggle dark mode" title="Toggle dark mode">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
-      </button>
-    </div>
+<noscript>
+  <div style="padding:40px 20px;font-family:sans-serif">
+    <h1>Abdelrahman Ahmed</h1>
+    <p>Backend engineer in Cairo. Java 21, Spring Boot, Kafka, AWS.</p>
+    <p><a href="mailto:abdelrahmanaabdelmalek@gmail.com">abdelrahmanaabdelmalek@gmail.com</a> ·
+       <a href="https://www.linkedin.com/in/abdulrahmansameerjr">LinkedIn</a> ·
+       <a href="https://github.com/abdusamir">GitHub</a></p>
   </div>
-</nav>
-
-<main class="wrap" id="top">
-
-<header class="hero">
-  <div class="eyebrow">Senior Software Engineer · Backend</div>
-  <h1>I build backend systems that real users depend on.</h1>
-  <p class="lede">I'm Abdelrahman, a backend engineer in Cairo working in Java 21 and Spring Boot. I build microservices, event-driven systems and APIs for telecom consumer apps and enterprise billing platforms, and I like tracing production problems to their real cause.</p>
-  <div class="cta">
-    <a class="btn primary" href="mailto:abdelrahmanaabdelmalek@gmail.com">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>Email me</a>
-    <a class="btn" href="https://www.linkedin.com/in/abdulrahmansameerjr" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>LinkedIn</a>
-    <a class="btn" href="https://github.com/abdusamir" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2 0-.4-.5-1.6.2-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"/></svg>GitHub</a>
-  </div>
-  <div class="status"><span class="dot"></span>Open to remote roles and relocation (Europe, Gulf)</div>
-</header>
-
-<section id="experience">
-  <h2>Experience</h2>
-
-  <div class="job">
-    <div class="when">Apr 2026 – Present</div>
-    <div>
-      <h3>Senior Software Engineer</h3>
-      <div class="org">VOIS · Remote</div>
-      <ul>
-        <li>Backend for the My Vodafone consumer app (Italy): 10+ Java 21 / Spring Boot microservices on AWS EKS, built API-first with OpenAPI, MongoDB, Redis and Kafka.</li>
-        <li>Integrated 7+ home-router models from 2 vendors behind a single API using a Strategy/Factory design, and shipped a QR-code onboarding endpoint for EasyMesh boosters.</li>
-        <li>Root-caused a production incident to a key collision affecting ~15,000 configuration rows, redesigned the key and added safe cleanup of stale data.</li>
-        <li>Fixed 230+ Checkstyle violations across 60+ files with all 312 tests green to unblock a release, and built 6 Claude Code agent skills that automate repeated team work.</li>
-      </ul>
-      <div class="tags"><span class="tag">Java 21</span><span class="tag">Spring Boot</span><span class="tag">AWS EKS</span><span class="tag">Kafka</span><span class="tag">MongoDB</span><span class="tag">Redis</span><span class="tag">Datadog</span></div>
-    </div>
-  </div>
-
-  <div class="job">
-    <div class="when">May 2025 – Apr 2026</div>
-    <div>
-      <h3>Software Engineer (Mid-level)</h3>
-      <div class="org">BitBang LLC · Cairo</div>
-      <ul>
-        <li>Backend services for an enterprise billing platform: subscription lifecycle, expiry handling and tracking.</li>
-        <li>Optimized high-volume background jobs with multi-threading, locking and error aggregation.</li>
-        <li>Refactored complex entity relationships and delivered strictly validated REST APIs for frontend and admin systems.</li>
-      </ul>
-      <div class="tags"><span class="tag">Spring Boot</span><span class="tag">PostgreSQL</span><span class="tag">RabbitMQ</span><span class="tag">JPA</span></div>
-    </div>
-  </div>
-
-  <div class="job">
-    <div class="when">Aug 2022 – Jun 2025</div>
-    <div>
-      <h3>Software Engineer</h3>
-      <div class="org">Ejada Systems · Cairo</div>
-      <ul>
-        <li>Designed and built scalable Spring Boot backends for enterprise applications, deployed as microservices on OpenShift.</li>
-        <li>Introduced Kafka for event-driven, real-time processing and Redis caching to keep APIs fast under peak load.</li>
-        <li>Refactored subscription workflows to remove circular dependencies, and added automated test coverage for core services.</li>
-      </ul>
-      <div class="tags"><span class="tag">Spring Boot</span><span class="tag">Kafka</span><span class="tag">Redis</span><span class="tag">PostgreSQL</span><span class="tag">OpenShift</span></div>
-    </div>
-  </div>
-</section>
-
-<section id="projects">
-  <h2>Projects</h2>
-  <div class="grid">
-    <div class="card wide">
-      <div class="head"><h3>Claude Code agent skills for a backend team</h3></div>
-      <p>Six Claude Code skills with Python tooling that automate repeated engineering work: incident triage (condensing Datadog logs, redacting JWTs, matching known failure patterns), test-environment validation with PASS/FAIL reports, a CI doctor, a release check and a workspace status report.</p>
-      <div class="tags"><span class="tag">Claude Code</span><span class="tag">Python</span><span class="tag">Datadog</span><span class="tag">CI/CD</span></div>
-    </div>
-    <div class="card wide">
-      <div class="head"><h3>AI-assisted job search pipeline</h3></div>
-      <p>My personal job search runs as an agentic Claude Code pipeline. It scrapes and ranks postings from European and Gulf job boards against a structured profile of my skills, then a drafter–reviewer loop tailors a LaTeX CV and cover letter to each role. I set up the profile and ranking criteria, and added rules such as verifying each employer's own application link. Built on an open-source framework.</p>
-      <div class="tags"><span class="tag">Claude Code</span><span class="tag">LaTeX</span><span class="tag">Python</span><span class="tag">Agent workflows</span></div>
-    </div>
-    <div class="card">
-      <div class="head"><h3>Accelerating Scientific Applications with GPUs</h3></div>
-      <p>Bachelor's thesis at Ain Shams University: speeding up scientific workloads by moving them onto the GPU with CUDA and OpenCL.</p>
-      <div class="tags"><span class="tag">CUDA</span><span class="tag">OpenCL</span><span class="tag">C++</span></div>
-    </div>
-    <div class="card">
-      <div class="head"><h3>GPS tracking system</h3><a href="https://github.com/abdusamir/GPS-Tracking-System-with-Tiva-C-and-Python" target="_blank" rel="noopener">Code ↗</a></div>
-      <p>A Tiva C microcontroller reads NMEA data from a NEO-6M GPS module over UART and logs coordinates each second. A Python script then parses the log and plots the route on a map with Folium.</p>
-      <div class="tags"><span class="tag">Embedded C</span><span class="tag">UART</span><span class="tag">Python</span><span class="tag">Folium</span></div>
-    </div>
-    <div class="card">
-      <div class="head"><h3>XML Editor</h3><a href="https://github.com/abdusamir/XML-Editor" target="_blank" rel="noopener">Code ↗</a></div>
-      <p>A Qt desktop app that checks XML for errors and corrects them, prettifies and minifies files, converts XML to JSON, and compresses and decompresses files.</p>
-      <div class="tags"><span class="tag">C++</span><span class="tag">Qt</span><span class="tag">Data structures</span></div>
-    </div>
-    <div class="card">
-      <div class="head"><h3>KenKen puzzle solver</h3><a href="https://github.com/abdusamir/KenKen" target="_blank" rel="noopener">Code ↗</a></div>
-      <p>Generates KenKen puzzles and solves them as constraint satisfaction problems, comparing backtracking, forward checking and arc consistency. A Flask API serves the solver to a React front end.</p>
-      <div class="tags"><span class="tag">Python</span><span class="tag">Flask</span><span class="tag">React</span><span class="tag">CSP</span></div>
-    </div>
-  </div>
-</section>
-
-<section id="skills">
-  <h2>Skills</h2>
-  <dl class="skills">
-    <dt>Languages</dt>
-    <dd class="tags"><span class="tag">Java 21</span><span class="tag">Python</span><span class="tag">TypeScript</span><span class="tag">JavaScript</span><span class="tag">C++</span><span class="tag">CUDA</span></dd>
-    <dt>Backend</dt>
-    <dd class="tags"><span class="tag">Spring Boot</span><span class="tag">Hibernate / JPA</span><span class="tag">REST / OpenAPI</span><span class="tag">Microservices</span><span class="tag">Node.js</span></dd>
-    <dt>Data &amp; messaging</dt>
-    <dd class="tags"><span class="tag">PostgreSQL</span><span class="tag">MongoDB</span><span class="tag">Redis</span><span class="tag">Kafka</span><span class="tag">RabbitMQ</span><span class="tag">MySQL</span></dd>
-    <dt>Cloud &amp; DevOps</dt>
-    <dd class="tags"><span class="tag">AWS</span><span class="tag">Kubernetes</span><span class="tag">Docker</span><span class="tag">OpenShift</span><span class="tag">Terraform</span><span class="tag">Jenkins</span><span class="tag">GitHub Actions</span></dd>
-    <dt>Quality &amp; tooling</dt>
-    <dd class="tags"><span class="tag">JUnit 5</span><span class="tag">Mockito</span><span class="tag">WireMock</span><span class="tag">SonarQube</span><span class="tag">Datadog</span><span class="tag">Claude Code</span></dd>
-  </dl>
-</section>
-
-<section id="education" class="edu">
-  <h2>Education</h2>
-  <div class="item">
-    <h3>B.Sc. Computer Engineering and Software Systems</h3>
-    <p>Ain Shams University, Cairo · 2017 – 2022</p>
-  </div>
-  <div class="item">
-    <h3>Advanced Full-Stack JavaScript Web Development Nanodegree</h3>
-    <p>Udacity · 2022</p>
-  </div>
-  <div class="item">
-    <h3>Professional Front-End Web Development Nanodegree</h3>
-    <p>Udacity</p>
-  </div>
-</section>
-
-<section id="contact" class="contact">
-  <h2>Contact</h2>
-  <p>I'm open to backend roles, remote or with relocation to Europe or the Gulf. The quickest way to reach me is email.</p>
-  <div class="cta">
-    <a class="btn primary" href="mailto:abdelrahmanaabdelmalek@gmail.com">abdelrahmanaabdelmalek@gmail.com</a>
-    <a class="btn" href="https://www.linkedin.com/in/abdulrahmansameerjr" target="_blank" rel="noopener">LinkedIn</a>
-    <a class="btn" href="https://github.com/abdusamir" target="_blank" rel="noopener">GitHub</a>
-  </div>
-</section>
-
-</main>
-
-<footer><div class="wrap">© <span id="yr">2026</span> Abdelrahman Ahmed · Cairo, Egypt</div></footer>
+</noscript>
+<div id="root"></div>
 
 <script>
-  document.getElementById("yr").textContent = new Date().getFullYear();
-  document.getElementById("theme").addEventListener("click", () => {
-    const root = document.documentElement;
-    const dark = root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
-    root.dataset.theme = dark ? "light" : "dark";
-    try { localStorage.setItem("theme", root.dataset.theme); } catch (e) {}
+const { useState, useMemo, useEffect } = React;
+const html = htm.bind(React.createElement);
+const {
+  createTheme, ThemeProvider, CssBaseline, useMediaQuery, alpha,
+  AppBar, Toolbar, Container, Box, Stack, Grid, Typography, Button, IconButton, Link,
+  Chip, Card, CardContent, CardActions, Accordion, AccordionSummary, AccordionDetails,
+  Stepper, Step, StepLabel, StepContent, Tooltip, Snackbar, Alert, Divider,
+  Menu, MenuItem, SvgIcon, ToggleButton, ToggleButtonGroup, Paper
+} = MaterialUI;
+
+const EMAIL = "abdelrahmanaabdelmalek@gmail.com";
+const LINKEDIN = "https://www.linkedin.com/in/abdulrahmansameerjr";
+const GITHUB = "https://github.com/abdusamir";
+
+/* ---------- icons (Material Symbols paths + brand marks) ---------- */
+const Icon = (d) => (props) => html`<${SvgIcon} ...${props}><path d=${d} /><//>`;
+const MailIcon = Icon("M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z");
+const CopyIcon = Icon("M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z");
+const ArrowIcon = Icon("M6 6v2h8.59L5 17.59 6.41 19 16 9.41V18h2V6z");
+const ExpandIcon = Icon("M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z");
+const MenuIcon = Icon("M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z");
+const MoonIcon = Icon("M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36A5.39 5.39 0 0 1 12.1 4.1c-.44-.06-.9-.1-1.36-.1H12z");
+const SunIcon = Icon("M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zM2 13h2a1 1 0 0 0 0-2H2a1 1 0 0 0 0 2zm18 0h2a1 1 0 0 0 0-2h-2a1 1 0 0 0 0 2zM11 2v2a1 1 0 0 0 2 0V2a1 1 0 0 0-2 0zm0 18v2a1 1 0 0 0 2 0v-2a1 1 0 0 0-2 0zM5.99 4.58a1 1 0 0 0-1.41 1.41l1.06 1.06a1 1 0 0 0 1.41-1.41L5.99 4.58zm12.37 12.37a1 1 0 0 0-1.41 1.41l1.06 1.06a1 1 0 0 0 1.41-1.41l-1.06-1.06zm1.06-10.96a1 1 0 0 0-1.41-1.41l-1.06 1.06a1 1 0 0 0 1.41 1.41l1.06-1.06zM7.05 18.36a1 1 0 0 0-1.41-1.41l-1.06 1.06a1 1 0 0 0 1.41 1.41l1.06-1.06z");
+const LinkedInIcon = Icon("M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z");
+const GitHubIcon = Icon("M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2 0-.4-.5-1.6.2-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3");
+
+/* ---------- theme ---------- */
+const serif = '"Fraunces", Georgia, serif';
+const mono = '"IBM Plex Mono", ui-monospace, monospace';
+function makeTheme(mode) {
+  const light = mode === "light";
+  return createTheme({
+    palette: {
+      mode,
+      primary: { main: light ? "#0F5C4D" : "#7FD1B9" },
+      secondary: { main: light ? "#C8471C" : "#FF9E6B" },
+      background: { default: light ? "#F4F1EA" : "#0E1211", paper: light ? "#FBF9F4" : "#151A19" },
+      text: { primary: light ? "#16181D" : "#ECE9E2", secondary: light ? "#585C62" : "#9AA39F" },
+      divider: light ? "rgba(22,24,29,.12)" : "rgba(236,233,226,.12)",
+    },
+    shape: { borderRadius: 16 },
+    typography: {
+      fontFamily: '"IBM Plex Sans", system-ui, sans-serif',
+      h1: { fontFamily: serif, fontWeight: 600, letterSpacing: "-0.03em", lineHeight: 0.98 },
+      h2: { fontFamily: serif, fontWeight: 500, letterSpacing: "-0.02em" },
+      h3: { fontFamily: serif, fontWeight: 600, letterSpacing: "-0.01em" },
+      h5: { fontFamily: serif, fontWeight: 600 },
+      h6: { fontFamily: serif, fontWeight: 600 },
+      overline: { fontFamily: mono, letterSpacing: "0.14em", fontWeight: 500 },
+      button: { textTransform: "none", fontWeight: 600, letterSpacing: 0 },
+    },
+    components: {
+      MuiButton: { defaultProps: { disableElevation: true }, styleOverrides: { root: { borderRadius: 999, paddingInline: 20 } } },
+      MuiCard: { defaultProps: { variant: "outlined" } },
+      MuiPaper: { styleOverrides: { root: { backgroundImage: "none" } } },
+      MuiChip: { styleOverrides: { root: { fontFamily: mono, fontSize: 12 } } },
+      MuiAccordion: { defaultProps: { disableGutters: true, elevation: 0 },
+        styleOverrides: { root: { background: "transparent", "&:before": { display: "none" } } } },
+    },
   });
+}
+
+/* ---------- small pieces ---------- */
+function SectionHead({ n, kicker, title, children }) {
+  return html`
+    <${Box} sx=${{ mb: { xs: 4, md: 6 }, maxWidth: 720 }}>
+      <${Typography} variant="overline" color="secondary">${n} · ${kicker}<//>
+      <${Typography} variant="h2" sx=${{ fontSize: { xs: 36, md: 52 }, mt: 1 }}>${title}<//>
+      ${children && html`<${Typography} color="text.secondary" sx=${{ mt: 2, fontSize: 17 }}>${children}<//>`}
+    <//>`;
+}
+
+/* ---------- interactive system map ---------- */
+const NODES = {
+  app:    { x: 46,  y: 150, label: "Mobile app", note: "The My Vodafone app (Italy). Millions of customers, and every screen is backed by an API my team owns." },
+  api:    { x: 150, y: 150, label: "OpenAPI", note: "API-first: we agree the contract in OpenAPI with the mobile team, generate code from it, then build." },
+  router: { x: 262, y: 62,  label: "Routers", note: "7+ router models from 2 vendors behind one API, chosen at runtime with a Strategy/Factory design." },
+  sim:    { x: 262, y: 150, label: "SIM / eSIM", note: "eSIM classification for a new SIM variant, including a missing-code case that would have broken the SIM PIN screen." },
+  ticket: { x: 262, y: 238, label: "Tickets", note: "Support-ticket messages. Home of the 15,000-row key collision I traced and fixed (see the case files)." },
+  kafka:  { x: 370, y: 62,  label: "Kafka", note: "Event streams between services. I've used Kafka for event-driven work since 2022." },
+  mongo:  { x: 370, y: 150, label: "MongoDB", note: "Configuration and content data. Where key design really matters." },
+  redis:  { x: 370, y: 238, label: "Redis", note: "Caching to keep hot paths fast under peak load." },
+};
+const EDGES = [["app","api"],["api","router"],["api","sim"],["api","ticket"],["router","kafka"],["sim","mongo"],["ticket","mongo"],["ticket","redis"],["router","mongo"]];
+
+function SystemMap() {
+  const [sel, setSel] = useState("api");
+  return html`
+    <${Paper} variant="outlined" sx=${{ p: { xs: 2, sm: 3 }, borderRadius: 4, position: "relative", overflow: "hidden" }}>
+      <${Stack} direction="row" justifyContent="space-between" alignItems="center" sx=${{ mb: 1 }}>
+        <${Typography} variant="overline" color="text.secondary">what I work on, roughly<//>
+        <${Box} sx=${{ display: "flex", alignItems: "center", gap: 0.75 }}>
+          <${Box} sx=${{ width: 8, height: 8, borderRadius: "50%", bgcolor: "#2EA44F", boxShadow: "0 0 0 4px rgba(46,164,79,.18)" }} />
+          <${Typography} sx=${{ fontFamily: mono, fontSize: 12 }} color="text.secondary">live<//>
+        <//>
+      <//>
+      <${Box} component="svg" viewBox="0 0 416 300" role="img" aria-label="Diagram of a mobile app calling backend services backed by Kafka, MongoDB and Redis"
+        sx=${{ width: "100%", height: "auto", display: "block", color: "text.primary" }}>
+        ${EDGES.map(([a, b], i) => {
+          const A = NODES[a], B = NODES[b], mx = (A.x + B.x) / 2;
+          const d = `M${A.x},${A.y} C${mx},${A.y} ${mx},${B.y} ${B.x},${B.y}`;
+          const hot = sel === a || sel === b;
+          return html`<g key=${i}>
+            <path id=${"e" + i} d=${d} fill="none" stroke="currentColor" strokeOpacity=${hot ? 0.55 : 0.18} strokeWidth=${hot ? 1.6 : 1.2} />
+            <circle className="flow" r="3" fill="var(--flow)">
+              <animateMotion dur=${(2.2 + (i % 4) * 0.45) + "s"} begin=${"-" + (i * 0.37) + "s"} repeatCount="indefinite"><mpath href=${"#e" + i} /></animateMotion>
+            </circle>
+          </g>`;
+        })}
+        ${Object.entries(NODES).map(([k, n]) => {
+          const on = sel === k;
+          return html`<g key=${k} transform=${`translate(${n.x},${n.y})`} style=${{ cursor: "pointer" }}
+              onMouseEnter=${() => setSel(k)} onClick=${() => setSel(k)} tabIndex="0" onFocus=${() => setSel(k)}>
+            <rect x="-38" y="-17" width="76" height="34" rx="17" fill=${on ? "var(--node-on)" : "var(--node)"} stroke="currentColor" strokeOpacity=${on ? 0 : 0.25} />
+            <text textAnchor="middle" dy="4.5" fontSize="11.5" fontFamily=${mono} fill=${on ? "var(--node-on-text)" : "currentColor"}>${n.label}</text>
+          </g>`;
+        })}
+      <//>
+      <${Box} sx=${{ minHeight: 66, mt: 1, borderTop: 1, borderColor: "divider", pt: 1.5 }}>
+        <${Typography} sx=${{ fontFamily: mono, fontSize: 12 }} color="secondary">${NODES[sel].label.toLowerCase()}<//>
+        <${Typography} variant="body2" color="text.secondary">${NODES[sel].note}<//>
+      <//>
+    <//>`;
+}
+
+/* ---------- data ---------- */
+const CASES = [
+  {
+    id: "collision", tag: "Production incident", title: "The 15,000-row key collision",
+    stack: ["MongoDB", "Spring Boot", "WireMock", "Datadog"],
+    blocks: [
+      ["Symptom", "Customers were seeing the wrong messages on their support tickets. Nothing was crashing, the data just looked wrong."],
+      ["Cause", "A scheduled sync job built its MongoDB keys in a way that let different configuration entries collide, across roughly 15,000 rows."],
+      ["Fix", "I redesigned the composite key, agreed the matching rule with the client, and added cleanup for stale documents. The cleanup has a guard: if the CMS response is empty, failed or partial, it deletes nothing."],
+      ["Proof", "Mocked the CMS with WireMock and passed all 5 acceptance cases end to end, checked against the Datadog logs."],
+    ],
+  },
+  {
+    id: "routers", tag: "Design", title: "Seven routers, two vendors, one API",
+    stack: ["Java 21", "Strategy / Factory", "OpenAPI"],
+    blocks: [
+      ["Problem", "The app has to manage 7+ home-router models from ZTE and Sercomm. Every vendor API is slightly different from the reference spec."],
+      ["Approach", "I audited each vendor spec against the reference device spec and turned every deviation into code or a feature gate. The models sit behind one API, picked at runtime by device type, and the duplicated vendor services now share one base class."],
+      ["Bonus", "While shipping a QR-code onboarding endpoint for EasyMesh boosters, I found a bug in the shared HTTP client that would have turned every successful install into a 503."],
+      ["Result", "New device types can ship dark behind app-version gating and be switched on when they're ready."],
+    ],
+  },
+  {
+    id: "release", tag: "Engineering quality", title: "230 lint errors between us and a release",
+    stack: ["Checkstyle", "Gradle", "SonarQube", "Claude Code"],
+    blocks: [
+      ["Problem", "A release was blocked by 230+ Checkstyle violations across 60+ files, and Gradle builds broke when a platform plugin was removed from Artifactory."],
+      ["Fix", "Cleared every violation while keeping all 312 tests green, unblocked the builds across repos, and raised SonarQube coverage to pass the quality gate."],
+      ["Then", "I automated the repetitive parts. I built 6 Claude Code skills with Python tooling that the team uses for incident triage (condensing Datadog logs, redacting JWTs, matching known failures), test-environment checks, CI diagnosis and release readiness."],
+    ],
+  },
+];
+
+const JOBS = [
+  { when: "Apr 2026 – now", role: "Senior Software Engineer", org: "VOIS", where: "Remote",
+    text: "Backend for the My Vodafone app in Italy. 10+ Java 21 / Spring Boot microservices on AWS EKS, with Kafka, MongoDB and Redis." },
+  { when: "May 2025 – Apr 2026", role: "Software Engineer", org: "BitBang LLC", where: "Cairo",
+    text: "Enterprise billing platform: subscription lifecycle and expiry, plus high-volume background jobs I sped up with multi-threading, locking and error aggregation. Spring Boot, PostgreSQL, RabbitMQ." },
+  { when: "Aug 2022 – Jun 2025", role: "Software Engineer", org: "Ejada Systems", where: "Cairo",
+    text: "Spring Boot backends for enterprise clients on OpenShift. Brought in Kafka for event-driven processing and Redis caching for peak load, and untangled circular dependencies in subscription workflows." },
+  { when: "2017 – 2022", role: "B.Sc. Computer Engineering", org: "Ain Shams University", where: "Cairo",
+    text: "Thesis on accelerating scientific applications with GPUs (CUDA, OpenCL). Plus two Udacity nanodegrees in front-end and full-stack JavaScript." },
+];
+
+const PROJECTS = [
+  { kind: "systems", title: "Accelerating scientific apps with GPUs", text: "My bachelor's thesis: moving scientific workloads onto the GPU with CUDA and OpenCL, and measuring what actually got faster.", stack: ["CUDA", "OpenCL", "C++"] },
+  { kind: "systems", title: "GPS tracker on a Tiva C", text: "A Tiva C microcontroller reads NMEA sentences from a NEO-6M module over UART and logs a point every second. A Python script plots the route on a map.", stack: ["Embedded C", "UART", "Python"], url: "https://github.com/abdusamir/GPS-Tracking-System-with-Tiva-C-and-Python" },
+  { kind: "systems", title: "XML Editor", text: "Qt desktop app that finds and fixes XML errors, prettifies and minifies, converts to JSON, and compresses files.", stack: ["C++", "Qt"], url: "https://github.com/abdusamir/XML-Editor" },
+  { kind: "web", title: "KenKen solver", text: "Generates KenKen puzzles and solves them as constraint problems, comparing backtracking, forward checking and arc consistency. Flask API, React front end.", stack: ["Python", "Flask", "React"], url: "https://github.com/abdusamir/KenKen" },
+  { kind: "web", title: "AI-assisted job search", text: "My own job search runs as a Claude Code pipeline: scraping and ranking postings, then a drafter and reviewer that tailor a LaTeX CV and cover letter per role. I set up the profile and rules. Built on an open-source framework.", stack: ["Claude Code", "LaTeX", "Python"] },
+];
+
+const TOOLBOX = [
+  ["Every day", ["Java 21", "Spring Boot", "Kafka", "MongoDB", "Redis", "AWS EKS", "OpenAPI", "Datadog", "Claude Code"]],
+  ["Comfortable", ["PostgreSQL", "RabbitMQ", "Hibernate / JPA", "Kubernetes", "Docker", "OpenShift", "Jenkins", "GitHub Actions", "JUnit 5", "Mockito", "WireMock", "Python"]],
+  ["Have shipped with", ["Terraform", "TypeScript", "Node.js", "C++", "CUDA", "Django"]],
+];
+
+/* ---------- sections ---------- */
+function Nav({ mode, toggle }) {
+  const [anchor, setAnchor] = useState(null);
+  const links = [["Case files", "#cases"], ["Path", "#path"], ["Projects", "#projects"], ["Contact", "#contact"]];
+  return html`
+    <${AppBar} position="sticky" color="transparent" elevation=${0}
+      sx=${{ backdropFilter: "blur(10px)", bgcolor: (t) => alpha(t.palette.background.default, 0.82), borderBottom: 1, borderColor: "divider" }}>
+      <${Container} maxWidth="lg">
+        <${Toolbar} disableGutters sx=${{ gap: 1 }}>
+          <${Link} href="#top" underline="none" color="text.primary" sx=${{ fontFamily: serif, fontWeight: 600, fontSize: 20, flexGrow: 1 }}>
+            Abdelrahman<${Box} component="span" sx=${{ color: "secondary.main" }}>.<//>
+          <//>
+          <${Stack} direction="row" spacing=${0.5} sx=${{ display: { xs: "none", md: "flex" } }}>
+            ${links.map(([l, h]) => html`<${Button} key=${h} href=${h} color="inherit" sx=${{ color: "text.secondary", "&:hover": { color: "text.primary" } }}>${l}<//>`)}
+          <//>
+          <${Tooltip} title=${mode === "dark" ? "Light mode" : "Dark mode"}>
+            <${IconButton} onClick=${toggle} aria-label="Toggle colour mode">
+              ${mode === "dark" ? html`<${SunIcon} fontSize="small" />` : html`<${MoonIcon} fontSize="small" />`}
+            <//>
+          <//>
+          <${IconButton} sx=${{ display: { md: "none" } }} aria-label="Menu" onClick=${(e) => setAnchor(e.currentTarget)}><${MenuIcon} /><//>
+          <${Menu} anchorEl=${anchor} open=${!!anchor} onClose=${() => setAnchor(null)}>
+            ${links.map(([l, h]) => html`<${MenuItem} key=${h} component="a" href=${h} onClick=${() => setAnchor(null)}>${l}<//>`)}
+          <//>
+        <//>
+      <//>
+    <//>`;
+}
+
+function Hero({ onCopy }) {
+  return html`
+    <${Container} maxWidth="lg" id="top" sx=${{ pt: { xs: 7, md: 11 }, pb: { xs: 8, md: 12 } }}>
+      <${Grid} container spacing=${{ xs: 6, md: 8 }} alignItems="center">
+        <${Grid} item xs=${12} md=${7}>
+          <${Typography} lang="ar" dir="rtl" sx=${{ fontFamily: '"Noto Naskh Arabic", serif', fontSize: 22, color: "text.secondary", textAlign: "left", mb: 1 }}>عبدالرحمن أحمد<//>
+          <${Typography} variant="h1" sx=${{ fontSize: { xs: 56, sm: 80, md: 96 } }}>
+            Abdelrahman<br />
+            <${Box} component="span" sx=${{ fontStyle: "italic", fontWeight: 400, color: "primary.main" }}>Ahmed<//>
+          <//>
+          <${Typography} sx=${{ mt: 3.5, fontSize: { xs: 18, md: 20 }, maxWidth: 560, lineHeight: 1.55 }}>
+            Backend engineer in Cairo. I work on the Java services behind apps people open every day, and I'm usually the one who goes digging when the numbers don't add up.
+          <//>
+          <${Stack} direction="row" spacing=${1.5} sx=${{ mt: 4, flexWrap: "wrap", rowGap: 1.5 }}>
+            <${Button} variant="contained" size="large" href=${"mailto:" + EMAIL} startIcon=${html`<${MailIcon} />`}>Email me<//>
+            <${Button} variant="outlined" size="large" href="#cases">Read the case files<//>
+            <${Tooltip} title="LinkedIn"><${IconButton} href=${LINKEDIN} target="_blank" rel="noopener" aria-label="LinkedIn"><${LinkedInIcon} /><//><//>
+            <${Tooltip} title="GitHub"><${IconButton} href=${GITHUB} target="_blank" rel="noopener" aria-label="GitHub"><${GitHubIcon} /><//><//>
+          <//>
+          <${Stack} direction="row" spacing=${1} sx=${{ mt: 4, flexWrap: "wrap", rowGap: 1 }}>
+            <${Chip} label="Senior SWE @ VOIS" variant="outlined" />
+            <${Chip} label="4+ years in production" variant="outlined" />
+            <${Chip} label="Open to Europe & Gulf" color="primary" variant="outlined" />
+          <//>
+        <//>
+        <${Grid} item xs=${12} md=${5}><${SystemMap} /><//>
+      <//>
+    <//>`;
+}
+
+function Cases() {
+  const [open, setOpen] = useState("collision");
+  return html`
+    <${Container} maxWidth="lg" id="cases" component="section" sx=${{ py: { xs: 8, md: 12 } }}>
+      <${SectionHead} n="01" kicker="case files" title="A few problems I'm glad I got to solve">
+        The CV version is bullet points. Here's what actually happened.
+      <//>
+      <${Stack} spacing=${2}>
+        ${CASES.map((c, i) => html`
+          <${Accordion} key=${c.id} expanded=${open === c.id} onChange=${(_, e) => setOpen(e ? c.id : null)}
+            sx=${{ border: 1, borderColor: open === c.id ? "primary.main" : "divider", borderRadius: "16px !important", transition: "border-color .2s" }}>
+            <${AccordionSummary} expandIcon=${html`<${ExpandIcon} />`} sx=${{ px: { xs: 2, md: 3.5 }, py: 1.5 }}>
+              <${Stack} direction=${{ xs: "column", sm: "row" }} spacing=${{ xs: 0.5, sm: 3 }} alignItems=${{ sm: "baseline" }}>
+                <${Typography} sx=${{ fontFamily: mono, fontSize: 13, color: "secondary.main", minWidth: 40 }}>${String(i + 1).padStart(2, "0")}<//>
+                <${Box}>
+                  <${Typography} variant="h5" sx=${{ fontSize: { xs: 22, md: 28 } }}>${c.title}<//>
+                  <${Typography} variant="body2" color="text.secondary">${c.tag}<//>
+                <//>
+              <//>
+            <//>
+            <${AccordionDetails} sx=${{ px: { xs: 2, md: 3.5 }, pb: 3.5, pl: { sm: 10.5 } }}>
+              <${Grid} container spacing=${3}>
+                ${c.blocks.map(([h, t]) => html`
+                  <${Grid} item xs=${12} sm=${6} key=${h}>
+                    <${Typography} variant="overline" color="primary">${h}<//>
+                    <${Typography} sx=${{ mt: 0.5 }}>${t}<//>
+                  <//>`)}
+              <//>
+              <${Stack} direction="row" spacing=${1} sx=${{ mt: 3, flexWrap: "wrap", rowGap: 1 }}>
+                ${c.stack.map((s) => html`<${Chip} key=${s} label=${s} size="small" />`)}
+              <//>
+            <//>
+          <//>`)}
+      <//>
+    <//>`;
+}
+
+function Path() {
+  const Dot = ({ active }) => html`<${Box} sx=${{ width: 14, height: 14, borderRadius: "50%", ml: "5px",
+    bgcolor: active ? "secondary.main" : "background.default", border: 2, borderColor: active ? "secondary.main" : "text.secondary" }} />`;
+  return html`
+    <${Box} component="section" id="path" sx=${{ py: { xs: 8, md: 12 }, bgcolor: "background.paper", borderBlock: 1, borderColor: "divider" }}>
+      <${Container} maxWidth="lg">
+        <${Grid} container spacing=${6}>
+          <${Grid} item xs=${12} md=${4}>
+            <${SectionHead} n="02" kicker="path" title="Where I've been">
+              Three companies, one thread: backends with real traffic, from enterprise clients to a consumer app.
+            <//>
+          <//>
+          <${Grid} item xs=${12} md=${8}>
+            <${Stepper} orientation="vertical" connector=${null} sx=${{ "& .MuiStepContent-root": { borderColor: "divider", ml: "11px" } }}>
+              ${JOBS.map((j, i) => html`
+                <${Step} key=${j.org} active=${true} expanded=${true}>
+                  <${StepLabel} StepIconComponent=${() => html`<${Dot} active=${i === 0} />`}>
+                    <${Stack} direction=${{ xs: "column", sm: "row" }} justifyContent="space-between" alignItems=${{ sm: "baseline" }} sx=${{ gap: 0.5 }}>
+                      <${Box}>
+                        <${Typography} variant="h6" sx=${{ fontSize: 22, lineHeight: 1.2 }}>${j.org}<//>
+                        <${Typography} variant="body2" color="text.secondary">${j.role} · ${j.where}<//>
+                      <//>
+                      <${Typography} sx=${{ fontFamily: mono, fontSize: 13 }} color="text.secondary">${j.when}<//>
+                    <//>
+                  <//>
+                  <${StepContent} TransitionProps=${{ in: true }}>
+                    <${Typography} sx=${{ pb: 4, pt: 1, maxWidth: 620 }}>${j.text}<//>
+                  <//>
+                <//>`)}
+            <//>
+          <//>
+        <//>
+      <//>
+    <//>`;
+}
+
+function Projects() {
+  const [kind, setKind] = useState("all");
+  const shown = PROJECTS.filter((p) => kind === "all" || p.kind === kind);
+  return html`
+    <${Container} maxWidth="lg" id="projects" component="section" sx=${{ py: { xs: 8, md: 12 } }}>
+      <${Stack} direction=${{ xs: "column", md: "row" }} justifyContent="space-between" alignItems=${{ md: "flex-end" }} sx=${{ mb: { xs: 4, md: 6 }, gap: 3 }}>
+        <${Box} sx=${{ mb: -6 }}><${SectionHead} n="03" kicker="side projects" title="Things I built for fun or for a grade" /><//>
+        <${ToggleButtonGroup} size="small" exclusive value=${kind} onChange=${(_, v) => v && setKind(v)} aria-label="Filter projects">
+          <${ToggleButton} value="all">All<//>
+          <${ToggleButton} value="systems">Systems<//>
+          <${ToggleButton} value="web">Web & AI<//>
+        <//>
+      <//>
+      <${Grid} container spacing=${2.5}>
+        ${shown.map((p, i) => html`
+          <${Grid} item xs=${12} sm=${6} md=${4} key=${p.title}>
+            <${Card} sx=${{ height: "100%", display: "flex", flexDirection: "column", transition: "transform .2s, border-color .2s",
+                "&:hover": { transform: "translateY(-4px)", borderColor: "primary.main" } }}>
+              <${CardContent} sx=${{ flexGrow: 1, p: 3 }}>
+                <${Typography} sx=${{ fontFamily: serif, fontStyle: "italic", fontSize: 40, lineHeight: 1, color: "secondary.main", mb: 2 }}>${String(i + 1).padStart(2, "0")}<//>
+                <${Typography} variant="h6" sx=${{ fontSize: 21, lineHeight: 1.25, mb: 1.25 }}>${p.title}<//>
+                <${Typography} variant="body2" color="text.secondary" sx=${{ fontSize: 15 }}>${p.text}<//>
+              <//>
+              <${CardActions} sx=${{ px: 3, pb: 2.5, justifyContent: "space-between", flexWrap: "wrap", gap: 1 }}>
+                <${Stack} direction="row" spacing=${0.75} sx=${{ flexWrap: "wrap", rowGap: 0.75 }}>
+                  ${p.stack.map((s) => html`<${Chip} key=${s} label=${s} size="small" />`)}
+                <//>
+                ${p.url && html`<${Button} size="small" href=${p.url} target="_blank" rel="noopener" endIcon=${html`<${ArrowIcon} fontSize="small" />`}>Code<//>`}
+              <//>
+            <//>
+          <//>`)}
+      <//>
+    <//>`;
+}
+
+function Toolbox() {
+  return html`
+    <${Container} maxWidth="lg" component="section" sx=${{ pb: { xs: 8, md: 12 } }}>
+      <${SectionHead} n="04" kicker="toolbox" title="What I reach for" />
+      <${Stack} divider=${html`<${Divider} flexItem />`} spacing=${3}>
+        ${TOOLBOX.map(([tier, items], i) => html`
+          <${Grid} container spacing=${2} key=${tier} alignItems="baseline">
+            <${Grid} item xs=${12} md=${3}>
+              <${Typography} variant="h6" sx=${{ fontStyle: "italic", fontWeight: 500 }}>${tier}<//>
+            <//>
+            <${Grid} item xs=${12} md=${9}>
+              <${Stack} direction="row" sx=${{ flexWrap: "wrap", gap: 1 }}>
+                ${items.map((s) => html`<${Chip} key=${s} label=${s} color=${i === 0 ? "primary" : "default"} variant=${i === 0 ? "filled" : "outlined"} />`)}
+              <//>
+            <//>
+          <//>`)}
+      <//>
+    <//>`;
+}
+
+function Contact({ onCopy }) {
+  return html`
+    <${Box} component="section" id="contact" sx=${{ bgcolor: "primary.main", color: "primary.contrastText", py: { xs: 9, md: 14 } }}>
+      <${Container} maxWidth="lg">
+        <${Typography} variant="overline" sx=${{ opacity: 0.8 }}>05 · contact<//>
+        <${Typography} variant="h1" sx=${{ fontSize: { xs: 52, md: 96 }, mt: 1 }}>
+          Let's <${Box} component="span" sx=${{ fontStyle: "italic", fontWeight: 400 }}>talk.<//>
+        <//>
+        <${Typography} sx=${{ mt: 3, fontSize: 19, maxWidth: 560, opacity: 0.9 }}>
+          I'm open to backend roles, remote or with relocation to Europe or the Gulf. Email is the fastest way to reach me.
+        <//>
+        <${Stack} direction=${{ xs: "column", sm: "row" }} spacing=${1.5} sx=${{ mt: 5 }} alignItems=${{ sm: "center" }}>
+          <${Button} variant="contained" size="large" href=${"mailto:" + EMAIL} startIcon=${html`<${MailIcon} />`}
+            sx=${{ bgcolor: "background.default", color: "text.primary", "&:hover": { bgcolor: "background.paper" }, textTransform: "none", overflowWrap: "anywhere" }}>${EMAIL}<//>
+          <${Tooltip} title="Copy email">
+            <${IconButton} onClick=${onCopy} aria-label="Copy email" sx=${{ color: "inherit", border: 1, borderColor: "currentColor", alignSelf: { xs: "flex-start", sm: "center" } }}><${CopyIcon} fontSize="small" /><//>
+          <//>
+        <//>
+        <${Stack} direction="row" spacing=${3} sx=${{ mt: 4 }}>
+          <${Link} href=${LINKEDIN} target="_blank" rel="noopener" color="inherit" underline="hover">LinkedIn ↗<//>
+          <${Link} href=${GITHUB} target="_blank" rel="noopener" color="inherit" underline="hover">GitHub ↗<//>
+        <//>
+      <//>
+    <//>`;
+}
+
+function App() {
+  const prefersDark = useMediaQuery("(prefers-color-scheme: dark)");
+  const [mode, setMode] = useState(() => { try { return localStorage.getItem("mode"); } catch (e) { return null; } });
+  const effective = mode || (prefersDark ? "dark" : "light");
+  const theme = useMemo(() => makeTheme(effective), [effective]);
+  const [copied, setCopied] = useState(false);
+  const toggle = () => { const m = effective === "dark" ? "light" : "dark"; setMode(m); try { localStorage.setItem("mode", m); } catch (e) {} };
+  const copy = () => { (navigator.clipboard ? navigator.clipboard.writeText(EMAIL) : Promise.reject()).then(() => setCopied(true), () => setCopied(true)); };
+
+  useEffect(() => {
+    const r = document.documentElement.style, p = theme.palette;
+    r.setProperty("--flow", p.secondary.main);
+    r.setProperty("--node", p.background.default);
+    r.setProperty("--node-on", p.primary.main);
+    r.setProperty("--node-on-text", p.primary.contrastText);
+  }, [theme]);
+
+  return html`
+    <${ThemeProvider} theme=${theme}>
+      <${CssBaseline} />
+      <${Box} sx=${{
+        backgroundImage: (t) => `radial-gradient(${alpha(t.palette.text.primary, 0.09)} 1px, transparent 1px)`,
+        backgroundSize: "22px 22px", minHeight: "100vh" }}>
+        <${Nav} mode=${effective} toggle=${toggle} />
+        <${Hero} />
+        <${Box} sx=${{ bgcolor: "background.default" }}>
+          <${Cases} />
+          <${Path} />
+          <${Projects} />
+          <${Toolbox} />
+        <//>
+        <${Contact} onCopy=${copy} />
+        <${Box} component="footer" sx=${{ bgcolor: "background.default", py: 4 }}>
+          <${Container} maxWidth="lg">
+            <${Stack} direction=${{ xs: "column", sm: "row" }} justifyContent="space-between" sx=${{ gap: 1 }}>
+              <${Typography} variant="body2" color="text.secondary">© ${new Date().getFullYear()} Abdelrahman Ahmed · Cairo, Egypt<//>
+              <${Typography} variant="body2" color="text.secondary" sx=${{ fontFamily: mono }}>React + Material UI<//>
+            <//>
+          <//>
+        <//>
+      <//>
+      <${Snackbar} open=${copied} autoHideDuration=${2200} onClose=${() => setCopied(false)} anchorOrigin=${{ vertical: "bottom", horizontal: "center" }}>
+        <${Alert} severity="success" variant="filled" onClose=${() => setCopied(false)}>Email copied<//>
+      <//>
+    <//>`;
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(html`<${App} />`);
 </script>
 </body>
 </html>
