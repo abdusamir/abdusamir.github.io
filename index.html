@@ -2,23 +2,36 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Abdulrahman Ahmed · Backend Engineer</title>
-<meta name="description" content="Abdulrahman Ahmed, backend engineer in Cairo. Java, Spring Boot, Kafka and AWS for telecom and billing platforms.">
+<meta name="description" content="Abdulrahman Ahmed, backend engineer in Cairo. Distributed systems, Java, Kafka, AWS and AI tooling with Claude Code.">
 <meta property="og:title" content="Abdulrahman Ahmed · Backend Engineer">
-<meta property="og:description" content="Backend engineer in Cairo. Java 21, Spring Boot, Kafka, AWS. Telecom and billing platforms.">
+<meta property="og:description" content="Backend engineer in Cairo. Distributed systems, Java, Kafka, AWS and AI tooling.">
 <meta property="og:url" content="https://abdulrahmanahmed.dev/">
 <meta property="og:type" content="website">
+<meta name="theme-color" content="#0A0F24">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   html { scroll-behavior: smooth; }
-  body { margin: 0; background: #F4F1EA; }
-  @media (prefers-color-scheme: dark) { body { background: #0E1211; } }
-  #root:empty::after { content: "Abdulrahman Ahmed · Backend Engineer"; display: block; padding: 40px 20px; font: 600 24px Georgia, serif; color: #888; }
-  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .flow { display: none; } }
+  body { margin: 0; background: #0A0F24; color: #ECE7DC; overflow-x: hidden; }
+  #root:empty::after { content: "Abdulrahman Ahmed · Backend Engineer"; display: block; padding: 48px 20px; font: 700 28px system-ui, sans-serif; color: #E9B85C; }
+  @keyframes twinkle { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }
+  @keyframes glow { 0%, 100% { opacity: .9; } 50% { opacity: .55; } }
+  @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  @keyframes shimmer { 0%, 100% { transform: translateX(0); opacity: .35; } 50% { transform: translateX(14px); opacity: .7; } }
+  @keyframes felled { 0% { opacity: 0; letter-spacing: .5em; } 20% { opacity: 1; } 80% { opacity: 1; } 100% { opacity: 0; letter-spacing: .2em; } }
+  .star { animation: twinkle var(--d, 3s) ease-in-out infinite; animation-delay: var(--delay, 0s); }
+  .win { animation: glow var(--d, 5s) ease-in-out infinite; animation-delay: var(--delay, 0s); }
+  .ripple { animation: shimmer 6s ease-in-out infinite; animation-delay: var(--delay, 0s); }
+  .rise { animation: rise .8s cubic-bezier(.2,.7,.2,1) both; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .star, .win, .ripple, .rise { animation: none !important; }
+    .msg { display: none; }
+  }
 </style>
 <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
@@ -27,323 +40,459 @@
 </head>
 <body>
 <noscript>
-  <div style="padding:40px 20px;font-family:sans-serif">
+  <div style="padding:40px 20px;font-family:sans-serif;color:#ECE7DC">
     <h1>Abdulrahman Ahmed</h1>
-    <p>Backend engineer in Cairo. Java 21, Spring Boot, Kafka, AWS.</p>
-    <p><a href="mailto:abdelrahmanaabdelmalek@gmail.com">abdelrahmanaabdelmalek@gmail.com</a> ·
-       <a href="https://www.linkedin.com/in/abdulrahmansameerjr">LinkedIn</a> ·
-       <a href="https://github.com/abdusamir">GitHub</a></p>
+    <p>Backend engineer in Cairo. Distributed systems, Java, Kafka, AWS.</p>
+    <p><a style="color:#E9B85C" href="mailto:abdelrahmanaabdelmalek@gmail.com">abdelrahmanaabdelmalek@gmail.com</a> ·
+       <a style="color:#E9B85C" href="https://www.linkedin.com/in/abdulrahmansameerjr">LinkedIn</a> ·
+       <a style="color:#E9B85C" href="https://github.com/abdusamir">GitHub</a></p>
   </div>
 </noscript>
 <div id="root"></div>
 
 <script>
-const { useState, useMemo, useEffect } = React;
+const { useState, useEffect, useMemo, useCallback } = React;
 const html = htm.bind(React.createElement);
 const {
-  createTheme, ThemeProvider, CssBaseline, useMediaQuery, alpha,
+  createTheme, ThemeProvider, CssBaseline, alpha,
   AppBar, Toolbar, Container, Box, Stack, Grid, Typography, Button, IconButton, Link,
-  Chip, Card, CardContent, CardActions, Accordion, AccordionSummary, AccordionDetails,
-  Stepper, Step, StepLabel, StepContent, Tooltip, Snackbar, Alert, Divider,
-  Menu, MenuItem, SvgIcon, ToggleButton, ToggleButtonGroup, Paper
+  Chip, Card, CardContent, Accordion, AccordionSummary, AccordionDetails,
+  Tabs, Tab, Dialog, InputBase, List, ListItemButton, ListItemText, Snackbar, Alert,
+  Tooltip, Drawer, Divider, SvgIcon
 } = MaterialUI;
 
 const EMAIL = "abdelrahmanaabdelmalek@gmail.com";
 const LINKEDIN = "https://www.linkedin.com/in/abdulrahmansameerjr";
 const GITHUB = "https://github.com/abdusamir";
 
-/* ---------- icons (Material Symbols paths + brand marks) ---------- */
+/* ------------------------------------------------------------------ palette */
+const C = {
+  night: "#0A0F24", night2: "#0E1430", surface: "#121A3D", line: "rgba(233,184,92,.16)",
+  gold: "#E9B85C", goldSoft: "#F3D9A4", text: "#ECE7DC", muted: "#A3ABC8", nile: "#6FB3DB",
+};
+const display = '"Bricolage Grotesque", system-ui, sans-serif';
+const serif = '"Instrument Serif", Georgia, serif';
+const mono = '"JetBrains Mono", ui-monospace, monospace';
+
+const theme = createTheme({
+  palette: {
+    mode: "dark",
+    primary: { main: C.gold, contrastText: C.night },
+    secondary: { main: C.nile },
+    background: { default: C.night, paper: C.surface },
+    text: { primary: C.text, secondary: C.muted },
+    divider: C.line,
+  },
+  shape: { borderRadius: 18 },
+  typography: {
+    fontFamily: display,
+    h1: { fontFamily: display, fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 0.92 },
+    h2: { fontFamily: display, fontWeight: 750, letterSpacing: "-0.03em", lineHeight: 1 },
+    h3: { fontFamily: display, fontWeight: 700, letterSpacing: "-0.02em" },
+    h5: { fontFamily: display, fontWeight: 700, letterSpacing: "-0.01em" },
+    h6: { fontFamily: display, fontWeight: 700 },
+    body1: { fontSize: 17, lineHeight: 1.65 },
+    button: { textTransform: "none", fontWeight: 700, letterSpacing: 0 },
+  },
+  components: {
+    MuiButton: { defaultProps: { disableElevation: true }, styleOverrides: { root: { borderRadius: 999, paddingInline: 22, minHeight: 46 } } },
+    MuiChip: { styleOverrides: { root: { fontFamily: mono, fontSize: 12, borderColor: C.line } } },
+    MuiPaper: { styleOverrides: { root: { backgroundImage: "none" } } },
+    MuiCard: { styleOverrides: { root: { background: alpha(C.surface, 0.72), border: `1px solid ${C.line}`, backdropFilter: "blur(6px)" } } },
+    MuiAccordion: { defaultProps: { disableGutters: true, elevation: 0 },
+      styleOverrides: { root: { background: alpha(C.surface, 0.6), "&:before": { display: "none" } } } },
+    MuiTab: { styleOverrides: { root: { fontFamily: mono, textTransform: "none", minHeight: 40, fontSize: 13 } } },
+  },
+});
+
+/* -------------------------------------------------------------------- icons */
 const Icon = (d) => (props) => html`<${SvgIcon} ...${props}><path d=${d} /><//>`;
 const MailIcon = Icon("M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z");
 const CopyIcon = Icon("M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z");
 const ArrowIcon = Icon("M6 6v2h8.59L5 17.59 6.41 19 16 9.41V18h2V6z");
 const ExpandIcon = Icon("M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z");
 const MenuIcon = Icon("M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z");
-const MoonIcon = Icon("M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36A5.39 5.39 0 0 1 12.1 4.1c-.44-.06-.9-.1-1.36-.1H12z");
-const SunIcon = Icon("M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zM2 13h2a1 1 0 0 0 0-2H2a1 1 0 0 0 0 2zm18 0h2a1 1 0 0 0 0-2h-2a1 1 0 0 0 0 2zM11 2v2a1 1 0 0 0 2 0V2a1 1 0 0 0-2 0zm0 18v2a1 1 0 0 0 2 0v-2a1 1 0 0 0-2 0zM5.99 4.58a1 1 0 0 0-1.41 1.41l1.06 1.06a1 1 0 0 0 1.41-1.41L5.99 4.58zm12.37 12.37a1 1 0 0 0-1.41 1.41l1.06 1.06a1 1 0 0 0 1.41-1.41l-1.06-1.06zm1.06-10.96a1 1 0 0 0-1.41-1.41l-1.06 1.06a1 1 0 0 0 1.41 1.41l1.06-1.06zM7.05 18.36a1 1 0 0 0-1.41-1.41l-1.06 1.06a1 1 0 0 0 1.41 1.41l1.06-1.06z");
+const TermIcon = Icon("M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 14H4V8h16v10zM6.5 10.5 9 13l-2.5 2.5 1 1L11 13 7.5 9.5l-1 1zM12 15h6v1.5h-6z");
 const LinkedInIcon = Icon("M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z");
 const GitHubIcon = Icon("M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2 0-.4-.5-1.6.2-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3");
 
-/* ---------- theme ---------- */
-const serif = '"Fraunces", Georgia, serif';
-const mono = '"IBM Plex Mono", ui-monospace, monospace';
-function makeTheme(mode) {
-  const light = mode === "light";
-  return createTheme({
-    palette: {
-      mode,
-      primary: { main: light ? "#0F5C4D" : "#7FD1B9" },
-      secondary: { main: light ? "#C8471C" : "#FF9E6B" },
-      background: { default: light ? "#F4F1EA" : "#0E1211", paper: light ? "#FBF9F4" : "#151A19" },
-      text: { primary: light ? "#16181D" : "#ECE9E2", secondary: light ? "#585C62" : "#9AA39F" },
-      divider: light ? "rgba(22,24,29,.12)" : "rgba(236,233,226,.12)",
-    },
-    shape: { borderRadius: 16 },
-    typography: {
-      fontFamily: '"IBM Plex Sans", system-ui, sans-serif',
-      h1: { fontFamily: serif, fontWeight: 600, letterSpacing: "-0.03em", lineHeight: 0.98 },
-      h2: { fontFamily: serif, fontWeight: 500, letterSpacing: "-0.02em" },
-      h3: { fontFamily: serif, fontWeight: 600, letterSpacing: "-0.01em" },
-      h5: { fontFamily: serif, fontWeight: 600 },
-      h6: { fontFamily: serif, fontWeight: 600 },
-      overline: { fontFamily: mono, letterSpacing: "0.14em", fontWeight: 500 },
-      button: { textTransform: "none", fontWeight: 600, letterSpacing: 0 },
-    },
-    components: {
-      MuiButton: { defaultProps: { disableElevation: true }, styleOverrides: { root: { borderRadius: 999, paddingInline: 20 } } },
-      MuiCard: { defaultProps: { variant: "outlined" } },
-      MuiPaper: { styleOverrides: { root: { backgroundImage: "none" } } },
-      MuiChip: { styleOverrides: { root: { fontFamily: mono, fontSize: 12 } } },
-      MuiAccordion: { defaultProps: { disableGutters: true, elevation: 0 },
-        styleOverrides: { root: { background: "transparent", "&:before": { display: "none" } } } },
-    },
-  });
+/* ------------------------------------------------- arabic geometric pattern */
+const STAR8 = (() => {
+  const s = 64, c = s / 2, r = 13;
+  const sq = (rot) => {
+    const pts = [0, 1, 2, 3].map((i) => {
+      const a = (Math.PI / 2) * i + rot;
+      return `${(c + r * Math.SQRT2 * Math.cos(a)).toFixed(2)},${(c + r * Math.SQRT2 * Math.sin(a)).toFixed(2)}`;
+    });
+    return `<polygon points='${pts.join(" ")}'/>`;
+  };
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='${s}' height='${s}'><g fill='none' stroke='%23E9B85C' stroke-width='.8'>${sq(Math.PI / 4)}${sq(0)}<path d='M0 0L${c - 18} ${c - 18}M${s} 0L${c + 18} ${c - 18}M0 ${s}L${c - 18} ${c + 18}M${s} ${s}L${c + 18} ${c + 18}'/></g></svg>`;
+  return `url("data:image/svg+xml;utf8,${svg}")`;
+})();
+const Pattern = ({ opacity = 0.05, sx }) => html`<${Box} aria-hidden="true" sx=${{ position: "absolute", inset: 0, backgroundImage: STAR8,
+  backgroundSize: "64px 64px", opacity, pointerEvents: "none",
+  maskImage: "radial-gradient(ellipse at center, #000 30%, transparent 75%)", WebkitMaskImage: "radial-gradient(ellipse at center, #000 30%, transparent 75%)", ...sx }} />`;
+
+/* --------------------------------------------------- cairo night skyline */
+function rng(seed) { return () => { seed |= 0; seed = (seed + 0x6D2B79F5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+  t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+
+function buildCity() {
+  const r = rng(1987), G = 250, parts = [], wins = [];
+  let x = 330;
+  while (x < 1210) {
+    const w = 22 + Math.floor(r() * 40), h = 40 + Math.floor(r() * 120);
+    if (x > 735 && x < 800) { x = 812; continue; }               // room for the tower
+    const roll = r();
+    if (roll < 0.14 && x < 1120) {                                  // mosque: dome + minarets
+      const bw = 70, bh = 46;
+      parts.push(`<rect x="${x}" y="${G - bh}" width="${bw}" height="${bh}"/>`);
+      parts.push(`<path d="M${x + 12} ${G - bh} A23 26 0 0 1 ${x + bw - 12} ${G - bh} Z"/>`);
+      parts.push(`<rect x="${x + bw / 2 - 1}" y="${G - bh - 34}" width="2" height="9"/>`);
+      [x - 7, x + bw + 1].forEach((mx) => {
+        parts.push(`<rect x="${mx}" y="${G - 112}" width="6" height="112"/>`);
+        parts.push(`<rect x="${mx - 2}" y="${G - 86}" width="10" height="4"/>`);
+        parts.push(`<path d="M${mx} ${G - 112} L${mx + 3} ${G - 128} L${mx + 6} ${G - 112} Z"/>`);
+      });
+      x += bw + 14; continue;
+    }
+    parts.push(`<rect x="${x}" y="${G - h}" width="${w}" height="${h}"/>`);
+    if (r() < 0.25) parts.push(`<rect x="${x + w / 2 - 0.75}" y="${G - h - 14}" width="1.5" height="14"/>`);
+    for (let wy = G - h + 8; wy < G - 8; wy += 10)
+      for (let wx = x + 5; wx < x + w - 6; wx += 8)
+        if (r() < 0.16) wins.push([wx, wy, (2 + r() * 6).toFixed(1), (r() * 6).toFixed(1)]);
+    x += w + 2 + Math.floor(r() * 4);
+  }
+  // Cairo Tower: slim lattice shaft with a flared lantern top
+  const tx = 772;
+  parts.push(`<path d="M${tx - 9} ${G} L${tx - 5} ${G - 170} L${tx + 5} ${G - 170} L${tx + 9} ${G} Z"/>`);
+  parts.push(`<path d="M${tx - 14} ${G - 170} L${tx + 14} ${G - 170} L${tx + 10} ${G - 192} L${tx - 10} ${G - 192} Z"/>`);
+  parts.push(`<rect x="${tx - 1}" y="${G - 222}" width="2" height="30"/>`);
+  wins.push([tx - 7, G - 184, "3", "0.4"], [tx + 3, G - 184, "4", "1.2"], [tx - 2, G - 184, "5", "2.1"]);
+  return { city: parts.join(""), wins };
 }
 
-/* ---------- small pieces ---------- */
-function SectionHead({ n, kicker, title, children }) {
+function buildSky() {
+  const r = rng(42), stars = [];
+  for (let i = 0; i < 90; i++) stars.push([r() * 1200, r() * 175, 0.5 + r() * 1.3, (2 + r() * 4).toFixed(1), (r() * 5).toFixed(1)]);
+  const nodes = [[110, 60], [235, 28], [380, 74], [520, 36], [655, 92], [905, 40], [1040, 82], [1135, 30]];
+  const edges = [[0, 1], [1, 2], [2, 3], [3, 4], [2, 4], [4, 5], [5, 6], [6, 7], [5, 7], [3, 5]];
+  return { stars, nodes, edges };
+}
+
+function Skyline() {
+  const { city, wins } = useMemo(buildCity, []);
+  const sky = useMemo(buildSky, []);
+  const G = 250;
   return html`
-    <${Box} sx=${{ mb: { xs: 4, md: 6 }, maxWidth: 720 }}>
-      <${Typography} variant="overline" color="secondary">${n} · ${kicker}<//>
-      <${Typography} variant="h2" sx=${{ fontSize: { xs: 36, md: 52 }, mt: 1 }}>${title}<//>
-      ${children && html`<${Typography} color="text.secondary" sx=${{ mt: 2, fontSize: 17 }}>${children}<//>`}
+    <${Box} component="svg" viewBox="0 0 1200 330" preserveAspectRatio="xMidYMax slice" aria-hidden="true"
+      sx=${{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block" }}>
+      <defs>
+        <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#0A0F24" stopOpacity="0" />
+          <stop offset=".72" stopColor="#1B2150" stopOpacity=".55" />
+          <stop offset="1" stopColor="#3A2A4A" stopOpacity=".55" />
+        </linearGradient>
+        <linearGradient id="waterG" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#0F1638" /><stop offset="1" stopColor="#070A1C" />
+        </linearGradient>
+        <radialGradient id="moonGlow"><stop offset="0" stopColor="#F3D9A4" stopOpacity=".35" /><stop offset="1" stopColor="#F3D9A4" stopOpacity="0" /></radialGradient>
+        <linearGradient id="fadeRefl" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#fff" stopOpacity=".22" /><stop offset="1" stopColor="#fff" stopOpacity="0" />
+        </linearGradient>
+        <mask id="reflMask"><rect x="0" y=${G} width="1200" height="80" fill="url(#fadeRefl)" /></mask>
+        <g id="cityShape" dangerouslySetInnerHTML=${{ __html: city }} />
+      </defs>
+      <rect width="1200" height=${G} fill="url(#skyG)" />
+
+      <circle cx="990" cy="64" r="90" fill="url(#moonGlow)" />
+      <circle cx="990" cy="64" r="24" fill=${C.goldSoft} />
+      <circle cx="1001" cy="57" r="22" fill="#151B45" />
+
+      ${sky.stars.map(([x, y, rr, d, delay], i) => html`<circle key=${"s" + i} className="star" cx=${x} cy=${y} r=${rr} fill="#F6EBD2"
+        style=${{ "--d": d + "s", "--delay": delay + "s" }} />`)}
+
+      <g stroke=${C.gold} strokeOpacity=".22" strokeWidth=".8">
+        ${sky.edges.map(([a, b], i) => html`<line key=${"l" + i} x1=${sky.nodes[a][0]} y1=${sky.nodes[a][1]} x2=${sky.nodes[b][0]} y2=${sky.nodes[b][1]} />`)}
+      </g>
+      ${sky.edges.map(([a, b], i) => html`<path key=${"p" + i} id=${"edge" + i} d=${`M${sky.nodes[a][0]},${sky.nodes[a][1]} L${sky.nodes[b][0]},${sky.nodes[b][1]}`} fill="none" />`)}
+      ${sky.edges.map((_, i) => html`<circle key=${"m" + i} className="msg" r="1.9" fill=${C.gold}>
+        <animateMotion dur=${(3 + (i % 3)) + "s"} begin=${"-" + (i * 0.7) + "s"} repeatCount="indefinite" keyPoints=${i % 2 ? "1;0" : "0;1"} keyTimes="0;1" calcMode="linear">
+          <mpath href=${"#edge" + i} /></animateMotion></circle>`)}
+      ${sky.nodes.map(([x, y], i) => html`<g key=${"n" + i}><circle cx=${x} cy=${y} r="6" fill=${C.gold} opacity=".12" /><circle cx=${x} cy=${y} r="2.4" fill=${C.goldSoft} /></g>`)}
+
+      <g fill="#1A2152" opacity=".9">
+        <path d=${`M40 ${G} L82 212 L124 ${G} Z`} />
+        <path d=${`M95 ${G} L172 168 L249 ${G} Z`} />
+        <path d=${`M205 ${G} L262 196 L319 ${G} Z`} />
+      </g>
+      <g fill="#0C1130"><use href="#cityShape" /></g>
+      ${wins.map(([x, y, d, delay], i) => html`<rect key=${"w" + i} className="win" x=${x} y=${y} width="3" height="4" rx=".5" fill=${C.gold}
+        style=${{ "--d": d + "s", "--delay": delay + "s" }} />`)}
+
+      <rect y=${G} width="1200" height="80" fill="url(#waterG)" />
+      <g mask="url(#reflMask)" transform=${`translate(0 ${2 * G}) scale(1 -1)`} fill=${C.gold}><use href="#cityShape" opacity=".5" /></g>
+      ${[[120, 262, 160], [420, 274, 220], [700, 266, 140], [930, 280, 200], [1030, 262, 90]].map(([x, y, w], i) =>
+        html`<rect key=${"r" + i} className="ripple" x=${x} y=${y} width=${w} height="1.2" rx=".6" fill=${C.goldSoft} style=${{ "--delay": i * 0.9 + "s" }} />`)}
     <//>`;
 }
 
-/* ---------- interactive system map ---------- */
-const NODES = {
-  app:    { x: 46,  y: 150, label: "Mobile app", note: "The My Vodafone app (Italy). Millions of customers, and every screen is backed by an API my team owns." },
-  api:    { x: 150, y: 150, label: "OpenAPI", note: "API-first: we agree the contract in OpenAPI with the mobile team, generate code from it, then build." },
-  router: { x: 262, y: 62,  label: "Routers", note: "7+ router models from 2 vendors behind one API, chosen at runtime with a Strategy/Factory design." },
-  sim:    { x: 262, y: 150, label: "SIM / eSIM", note: "SIM and eSIM classification that decides which flows a customer gets in the app, extended as new SIM variants launch." },
-  ticket: { x: 262, y: 238, label: "Tickets", note: "Support-ticket messages. Home of the 15,000-row key collision I traced and fixed (see the case files)." },
-  kafka:  { x: 370, y: 62,  label: "Kafka", note: "Event streams between services. I've used Kafka for event-driven work since 2022." },
-  mongo:  { x: 370, y: 150, label: "MongoDB", note: "Configuration and content data. Where key design really matters." },
-  redis:  { x: 370, y: 238, label: "Redis", note: "Caching to keep hot paths fast under peak load." },
-};
-const EDGES = [["app","api"],["api","router"],["api","sim"],["api","ticket"],["router","kafka"],["sim","mongo"],["ticket","mongo"],["ticket","redis"],["router","mongo"]];
+/* ------------------------------------------------------------ small pieces */
+function CairoClock() {
+  const fmt = useMemo(() => new Intl.DateTimeFormat("en-GB", { timeZone: "Africa/Cairo", hour: "2-digit", minute: "2-digit" }), []);
+  const [t, setT] = useState(() => fmt.format(new Date()));
+  useEffect(() => { const id = setInterval(() => setT(fmt.format(new Date())), 15000); return () => clearInterval(id); }, [fmt]);
+  return html`<span>${t}</span>`;
+}
 
-function SystemMap() {
-  const [sel, setSel] = useState("api");
+const Kicker = ({ children, sx, className }) => html`<${Typography} component="div" className=${className} sx=${{ fontFamily: mono, fontSize: 13, color: "primary.main", letterSpacing: ".04em", ...sx }}>${children}<//>`;
+
+function SectionHead({ kicker, title, sub }) {
   return html`
-    <${Paper} variant="outlined" sx=${{ p: { xs: 2, sm: 3 }, borderRadius: 4, position: "relative", overflow: "hidden" }}>
-      <${Stack} direction="row" justifyContent="space-between" alignItems="center" sx=${{ mb: 1 }}>
-        <${Typography} variant="overline" color="text.secondary">what I work on, roughly<//>
-        <${Box} sx=${{ display: "flex", alignItems: "center", gap: 0.75 }}>
-          <${Box} sx=${{ width: 8, height: 8, borderRadius: "50%", bgcolor: "#2EA44F", boxShadow: "0 0 0 4px rgba(46,164,79,.18)" }} />
-          <${Typography} sx=${{ fontFamily: mono, fontSize: 12 }} color="text.secondary">live<//>
-        <//>
-      <//>
-      <${Box} component="svg" viewBox="0 0 416 300" role="img" aria-label="Diagram of a mobile app calling backend services backed by Kafka, MongoDB and Redis"
-        sx=${{ width: "100%", height: "auto", display: "block", color: "text.primary" }}>
-        ${EDGES.map(([a, b], i) => {
-          const A = NODES[a], B = NODES[b], mx = (A.x + B.x) / 2;
-          const d = `M${A.x},${A.y} C${mx},${A.y} ${mx},${B.y} ${B.x},${B.y}`;
-          const hot = sel === a || sel === b;
-          return html`<g key=${i}>
-            <path id=${"e" + i} d=${d} fill="none" stroke="currentColor" strokeOpacity=${hot ? 0.55 : 0.18} strokeWidth=${hot ? 1.6 : 1.2} />
-            <circle className="flow" r="3" fill="var(--flow)">
-              <animateMotion dur=${(2.2 + (i % 4) * 0.45) + "s"} begin=${"-" + (i * 0.37) + "s"} repeatCount="indefinite"><mpath href=${"#e" + i} /></animateMotion>
-            </circle>
-          </g>`;
-        })}
-        ${Object.entries(NODES).map(([k, n]) => {
-          const on = sel === k;
-          return html`<g key=${k} transform=${`translate(${n.x},${n.y})`} style=${{ cursor: "pointer" }}
-              onMouseEnter=${() => setSel(k)} onClick=${() => setSel(k)} tabIndex="0" onFocus=${() => setSel(k)}>
-            <rect x="-38" y="-17" width="76" height="34" rx="17" fill=${on ? "var(--node-on)" : "var(--node)"} stroke="currentColor" strokeOpacity=${on ? 0 : 0.25} />
-            <text textAnchor="middle" dy="4.5" fontSize="11.5" fontFamily=${mono} fill=${on ? "var(--node-on-text)" : "currentColor"}>${n.label}</text>
-          </g>`;
-        })}
-      <//>
-      <${Box} sx=${{ minHeight: 66, mt: 1, borderTop: 1, borderColor: "divider", pt: 1.5 }}>
-        <${Typography} sx=${{ fontFamily: mono, fontSize: 12 }} color="secondary">${NODES[sel].label.toLowerCase()}<//>
-        <${Typography} variant="body2" color="text.secondary">${NODES[sel].note}<//>
-      <//>
+    <${Box} sx=${{ mb: { xs: 4, md: 6 }, maxWidth: 760 }}>
+      <${Kicker}>${kicker}<//>
+      <${Typography} variant="h2" sx=${{ fontSize: { xs: 38, sm: 48, md: 60 }, mt: 1.5 }}>${title}<//>
+      ${sub && html`<${Typography} color="text.secondary" sx=${{ mt: 2 }}>${sub}<//>`}
     <//>`;
 }
 
-/* ---------- data ---------- */
+/* -------------------------------------------------------------------- data */
 const CASES = [
   {
-    id: "collision", tag: "Production incident", title: "The 15,000-row key collision",
+    id: "collision", boss: "boss 01", title: "The 15,000-row key collision", tag: "Production incident",
     stack: ["MongoDB", "Spring Boot", "Datadog"],
     blocks: [
-      ["Symptom", "Customers were seeing the wrong messages on their support tickets. Nothing was crashing, the data just looked wrong."],
+      ["Symptom", "Customers were seeing the wrong messages on their support tickets. Nothing crashed. The data just quietly lied."],
       ["Cause", "A scheduled sync job built its MongoDB keys in a way that let different configuration entries collide, across roughly 15,000 rows."],
-      ["Fix", "I redesigned the composite key, agreed the matching rule with the client, and added cleanup for stale documents. The cleanup has a guard: if the CMS response is empty, failed or partial, it deletes nothing."],
-      ["Result", "Each configuration entry now maps to exactly one message, and a failed or partial sync no longer deletes anything."],
+      ["Fix", "I redesigned the composite key, agreed the matching rule with the client, and added stale-data cleanup with a guard: if the CMS response is empty, failed or partial, it deletes nothing."],
+      ["Result", "Each configuration entry maps to exactly one message, and a bad sync can no longer wipe data."],
     ],
   },
   {
-    id: "routers", tag: "Design", title: "Seven routers, two vendors, one API",
+    id: "routers", boss: "boss 02", title: "Seven routers, two vendors, one API", tag: "System design",
     stack: ["Java 21", "Strategy / Factory", "OpenAPI"],
     blocks: [
-      ["Problem", "The app has to manage 7+ home-router models from ZTE and Sercomm. Every vendor API is slightly different from the reference spec."],
-      ["Approach", "I audited each vendor spec against the reference device spec and turned every deviation into code or a feature gate. The models sit behind one API, picked at runtime by device type, and the duplicated vendor services now share one base class."],
-      ["Also", "I built connectivity for Fixed Wireless Access and legacy routers over a VPN route that bypasses the SOAP remote-access service, and a QR-code onboarding endpoint for EasyMesh boosters with a contract agreed with the mobile team first."],
-      ["Result", "New device types can ship dark behind app-version gating and be switched on when they're ready."],
+      ["Problem", "The app manages 7+ home-router models from ZTE and Sercomm, and every vendor API drifts from the reference spec in its own way."],
+      ["Approach", "I audited each vendor spec against the reference and turned every deviation into code or a feature gate. The models sit behind one API, chosen at runtime by device type, and duplicated vendor services now share one base class."],
+      ["Also", "Connectivity for Fixed Wireless Access and legacy routers over a VPN route that bypasses the SOAP remote-access service, and a QR-code onboarding endpoint for EasyMesh boosters with the contract agreed with the mobile team first."],
+      ["Result", "New device types ship dark behind app-version gating and switch on when they're ready."],
     ],
   },
   {
-    id: "tooling", tag: "Developer productivity", title: "Teaching Claude Code our runbooks",
+    id: "agents", boss: "boss 03", title: "Teaching Claude Code our runbooks", tag: "AI developer tooling",
     stack: ["Claude Code", "Python", "Datadog", "Jenkins"],
     blocks: [
-      ["Problem", "A lot of the team's time went into the same investigations: reading through Datadog logs during incidents, checking test environments by hand, working out why a pipeline failed, and deciding whether a release was ready."],
+      ["Problem", "The team kept repeating the same investigations: digging through Datadog logs during incidents, checking test environments by hand, working out why a pipeline failed, deciding if a release was ready."],
       ["What I built", "6 Claude Code agent skills backed by Python tooling. Incident triage condenses Datadog logs, redacts JWTs and matches known failure patterns. Others validate test environments with PASS/FAIL reports, diagnose CI failures, check release readiness and report workspace status."],
-      ["Why it matters", "The knowledge that used to live in a few people's heads is now written down as skills the whole team can run."],
+      ["Why it matters", "Knowledge that lived in a few people's heads is now written down as skills the whole team can run."],
     ],
   },
 ];
 
-const JOBS = [
-  { when: "Apr 2026 – now", role: "Senior Software Engineer", org: "VOIS", where: "Cairo (hybrid)",
-    text: "Backend for the My Vodafone app in Italy. 10+ Java 21 / Spring Boot microservices on AWS EKS, with Kafka, MongoDB and Redis." },
-  { when: "May 2025 – Apr 2026", role: "Software Engineer", org: "BitBang LLC", where: "Cairo",
-    text: "Enterprise billing platform: subscription lifecycle and expiry, plus high-volume background jobs I sped up with multi-threading, locking and error aggregation. Spring Boot, PostgreSQL, RabbitMQ." },
-  { when: "Aug 2022 – Jun 2025", role: "Software Engineer", org: "Ejada Systems", where: "Cairo",
-    text: "Spring Boot backends for enterprise clients on OpenShift. Brought in Kafka for event-driven processing and Redis caching for peak load." },
-  { when: "2017 – 2022", role: "B.Sc. Computer Engineering", org: "Ain Shams University", where: "Cairo",
-    text: "Thesis on accelerating scientific applications with GPUs (CUDA, OpenCL). Plus two Udacity nanodegrees in front-end and full-stack JavaScript." },
+const QUESTS = [
+  { kind: "Main quest", when: "Apr 2026 – now", org: "VOIS", role: "Senior Software Engineer", where: "Cairo · hybrid", now: true,
+    text: "Backend for the My Vodafone app in Italy, used by millions. 10+ Java 21 / Spring Boot microservices on AWS EKS with Kafka, MongoDB and Redis." },
+  { kind: "Main quest", when: "May 2025 – Apr 2026", org: "BitBang LLC", role: "Software Engineer", where: "Cairo",
+    text: "Enterprise billing platform: subscription lifecycle and expiry, plus high-volume background jobs I made faster with multi-threading, locking and error aggregation." },
+  { kind: "Main quest", when: "Aug 2022 – Jun 2025", org: "Ejada Systems", role: "Software Engineer", where: "Cairo",
+    text: "Spring Boot backends for enterprise clients on OpenShift, with Kafka for event-driven processing and Redis caching for peak load." },
+  { kind: "Training arc", when: "2017 – 2022", org: "Ain Shams University", role: "B.Sc. Computer Engineering", where: "Cairo",
+    text: "Thesis on accelerating scientific applications with GPUs (CUDA, OpenCL). Plus a Udacity nanodegree in full-stack JavaScript." },
 ];
 
 const PROJECTS = [
   { kind: "systems", title: "Accelerating scientific apps with GPUs", text: "My bachelor's thesis: moving scientific workloads onto the GPU with CUDA and OpenCL, and measuring what actually got faster.", stack: ["CUDA", "OpenCL", "C++"] },
-  { kind: "systems", title: "GPS tracker on a Tiva C", text: "A Tiva C microcontroller reads NMEA sentences from a NEO-6M module over UART and logs a point every second. A Python script plots the route on a map.", stack: ["Embedded C", "UART", "Python"], url: "https://github.com/abdusamir/GPS-Tracking-System-with-Tiva-C-and-Python" },
+  { kind: "systems", title: "GPS tracker on a Tiva C", text: "A microcontroller reads NMEA sentences from a NEO-6M module over UART and logs a point every second. A Python script plots the route on a map.", stack: ["Embedded C", "UART", "Python"], url: "https://github.com/abdusamir/GPS-Tracking-System-with-Tiva-C-and-Python" },
   { kind: "systems", title: "XML Editor", text: "Qt desktop app that finds and fixes XML errors, prettifies and minifies, converts to JSON, and compresses files.", stack: ["C++", "Qt"], url: "https://github.com/abdusamir/XML-Editor" },
-  { kind: "web", title: "KenKen solver", text: "Generates KenKen puzzles and solves them as constraint problems, comparing backtracking, forward checking and arc consistency. Flask API, React front end.", stack: ["Python", "Flask", "React"], url: "https://github.com/abdusamir/KenKen" },
-  { kind: "web", title: "AI-assisted job search", text: "My own job search runs as a Claude Code pipeline: scraping and ranking postings, then a drafter and reviewer that tailor a LaTeX CV and cover letter per role. I set up the profile and rules. Built on an open-source framework.", stack: ["Claude Code", "LaTeX", "Python"] },
+  { kind: "ai", title: "KenKen solver", text: "Generates KenKen puzzles and solves them as constraint problems, racing backtracking against forward checking and arc consistency. Flask API, React front end.", stack: ["Python", "Flask", "React"], url: "https://github.com/abdusamir/KenKen" },
+  { kind: "ai", title: "AI-assisted job search", text: "My own job search runs as a Claude Code pipeline: it scrapes and ranks postings, then a drafter and a reviewer tailor a LaTeX CV and cover letter per role. Built on an open-source framework I configured and extended.", stack: ["Claude Code", "LaTeX", "Python"] },
 ];
 
-const TOOLBOX = [
-  ["Every day", ["Java 21", "Spring Boot", "Kafka", "MongoDB", "Redis", "AWS EKS", "OpenAPI", "Datadog", "Claude Code"]],
-  ["Comfortable", ["PostgreSQL", "RabbitMQ", "Hibernate / JPA", "Kubernetes", "Docker", "OpenShift", "Jenkins", "GitHub Actions", "JUnit 5", "Mockito", "WireMock", "Python"]],
-  ["Have shipped with", ["Terraform", "TypeScript", "Node.js", "C++", "CUDA", "Django"]],
+const INVENTORY = [
+  ["Equipped", ["Java 21", "Spring Boot", "Kafka", "MongoDB", "Redis", "AWS EKS", "OpenAPI", "Datadog", "Claude Code"]],
+  ["In the bag", ["PostgreSQL", "RabbitMQ", "Hibernate / JPA", "Kubernetes", "Docker", "OpenShift", "Jenkins", "GitHub Actions", "JUnit 5", "Python"]],
+  ["Unlocked earlier", ["Terraform", "TypeScript", "Node.js", "C++", "CUDA", "Django"]],
 ];
 
-/* ---------- sections ---------- */
-function Nav({ mode, toggle }) {
-  const [anchor, setAnchor] = useState(null);
-  const links = [["Case files", "#cases"], ["Path", "#path"], ["Projects", "#projects"], ["Contact", "#contact"]];
+const SECTIONS = [["About", "#about"], ["Case files", "#cases"], ["Quest log", "#quests"], ["Side quests", "#projects"], ["Contact", "#contact"]];
+
+/* ------------------------------------------------------------------ nav */
+function Nav({ onPalette }) {
+  const [open, setOpen] = useState(false);
   return html`
-    <${AppBar} position="sticky" color="transparent" elevation=${0}
-      sx=${{ backdropFilter: "blur(10px)", bgcolor: (t) => alpha(t.palette.background.default, 0.82), borderBottom: 1, borderColor: "divider" }}>
+    <${AppBar} position="fixed" elevation=${0} sx=${{ bgcolor: alpha(C.night, 0.72), backdropFilter: "blur(12px)", borderBottom: `1px solid ${C.line}` }}>
       <${Container} maxWidth="lg">
-        <${Toolbar} disableGutters sx=${{ gap: 1 }}>
-          <${Link} href="#top" underline="none" color="text.primary" sx=${{ fontFamily: serif, fontWeight: 600, fontSize: 20, flexGrow: 1 }}>
-            Abdulrahman<${Box} component="span" sx=${{ color: "secondary.main" }}>.<//>
+        <${Toolbar} disableGutters sx=${{ gap: 1, minHeight: { xs: 60 } }}>
+          <${Link} href="#top" underline="none" sx=${{ display: "flex", alignItems: "center", gap: 1.2, flexGrow: 1, color: "text.primary", minWidth: 0 }}>
+            <${Box} component="img" src="favicon.svg" alt="" sx=${{ width: 28, height: 28, flexShrink: 0 }} />
+            <${Typography} noWrap sx=${{ fontWeight: 800, fontSize: 18, letterSpacing: "-0.02em" }}>abdulrahman<${Box} component="span" sx=${{ color: "primary.main" }}>.dev<//><//>
           <//>
-          <${Stack} direction="row" spacing=${0.5} sx=${{ display: { xs: "none", md: "flex" } }}>
-            ${links.map(([l, h]) => html`<${Button} key=${h} href=${h} color="inherit" sx=${{ color: "text.secondary", "&:hover": { color: "text.primary" } }}>${l}<//>`)}
+          <${Stack} direction="row" sx=${{ display: { xs: "none", md: "flex" } }}>
+            ${SECTIONS.map(([l, h]) => html`<${Button} key=${h} href=${h} sx=${{ color: "text.secondary", minHeight: 36, px: 1.5, "&:hover": { color: "primary.main", bgcolor: "transparent" } }}>${l}<//>`)}
           <//>
-          <${Tooltip} title=${mode === "dark" ? "Light mode" : "Dark mode"}>
-            <${IconButton} onClick=${toggle} aria-label="Toggle colour mode">
-              ${mode === "dark" ? html`<${SunIcon} fontSize="small" />` : html`<${MoonIcon} fontSize="small" />`}
+          <${Tooltip} title="Command palette ( / )">
+            <${Button} onClick=${onPalette} variant="outlined" size="small" aria-label="Open command palette" startIcon=${html`<${TermIcon} fontSize="small" />`}
+              sx=${{ minHeight: 34, minWidth: 0, px: 1.5, fontFamily: mono, fontSize: 12, borderColor: C.line, color: "text.secondary" }}>/<//>
+          <//>
+          <${IconButton} aria-label="Open menu" sx=${{ display: { md: "none" } }} onClick=${() => setOpen(true)}><${MenuIcon} /><//>
+        <//>
+      <//>
+      <${Drawer} anchor="right" open=${open} onClose=${() => setOpen(false)} PaperProps=${{ sx: { width: 270, bgcolor: C.night2, borderLeft: `1px solid ${C.line}` } }}>
+        <${Box} sx=${{ p: 3 }}>
+          <${Kicker}>// fast travel<//>
+          <${List} sx=${{ mt: 1 }}>
+            ${SECTIONS.map(([l, h]) => html`<${ListItemButton} key=${h} component="a" href=${h} onClick=${() => setOpen(false)} sx=${{ borderRadius: 2 }}>
+              <${ListItemText} primary=${l} primaryTypographyProps=${{ fontWeight: 700, fontSize: 20 }} /><//>`)}
+          <//>
+        <//>
+      <//>
+    <//>`;
+}
+
+/* ----------------------------------------------------------------- hero */
+function Hero() {
+  return html`
+    <${Box} id="top" component="header" sx=${{ position: "relative", minHeight: { xs: "min(100svh, 860px)", md: "min(100vh, 940px)" }, overflow: "hidden",
+      background: `radial-gradient(1200px 600px at 80% 0%, ${alpha("#2B2F6B", 0.55)}, transparent 60%), linear-gradient(180deg, ${C.night} 0%, #0D1332 100%)` }}>
+      <${Box} sx=${{ position: "absolute", left: 0, right: 0, bottom: 0, height: { xs: 250, sm: 320, md: 400 } }}><${Skyline} /><//>
+      <${Box} aria-hidden="true" sx=${{ position: "absolute", inset: 0, pointerEvents: "none", display: { xs: "none", md: "block" }, background: `linear-gradient(90deg, ${alpha(C.night, 0.85)} 0%, ${alpha(C.night, 0.4)} 45%, transparent 65%)`, maskImage: "linear-gradient(#000 62%, transparent 80%)", WebkitMaskImage: "linear-gradient(#000 62%, transparent 80%)" }} />
+      <${Container} maxWidth="lg" sx=${{ position: "relative", pt: { xs: 12, md: 17 }, pb: 8 }}>
+        <${Kicker} className="rise" sx=${{ display: "flex", flexWrap: "wrap", columnGap: 2, rowGap: 0.5 }}>
+          <span>// cairo, egypt</span><span style=${{ color: C.muted }}>local time <${CairoClock} /></span>
+        <//>
+        <${Typography} variant="h1" className="rise" sx=${{ mt: 2.5, fontSize: { xs: 50, sm: 84, md: 120 }, animationDelay: ".08s" }}>
+          Abdulrahman<br />
+          <${Box} component="span" sx=${{ fontFamily: serif, fontStyle: "italic", fontWeight: 400, letterSpacing: "-0.01em", color: "primary.main" }}>Ahmed.<//>
+        <//>
+        <${Typography} className="rise" sx=${{ mt: 3, maxWidth: 580, fontSize: { xs: 18, md: 21 }, color: "text.primary", animationDelay: ".16s" }}>
+          Backend engineer. I build the distributed systems behind apps millions of people open, and I don't sleep well until the logs make sense.
+        <//>
+        <${Stack} direction="row" className="rise" sx=${{ mt: 4, gap: 1.5, flexWrap: "wrap", alignItems: "center", animationDelay: ".24s" }}>
+          <${Button} variant="contained" href=${"mailto:" + EMAIL} startIcon=${html`<${MailIcon} />`}>Send a raven<//>
+          <${Button} variant="outlined" href="#cases" sx=${{ borderColor: alpha(C.gold, 0.5) }}>Read the case files<//>
+          <${Stack} direction="row">
+            <${IconButton} href=${LINKEDIN} target="_blank" rel="noopener" aria-label="LinkedIn" sx=${{ color: "text.secondary" }}><${LinkedInIcon} /><//>
+            <${IconButton} href=${GITHUB} target="_blank" rel="noopener" aria-label="GitHub" sx=${{ color: "text.secondary" }}><${GitHubIcon} /><//>
+          <//>
+        <//>
+        <${Chip} className="rise" label="● open to roles in Europe & the Gulf" variant="outlined"
+          sx=${{ mt: 3, color: "#8FD9A8", borderColor: alpha("#8FD9A8", 0.35), bgcolor: alpha("#8FD9A8", 0.06), animationDelay: ".32s" }} />
+      <//>
+    <//>`;
+}
+
+/* ---------------------------------------------------------------- about */
+function About() {
+  const stats = [
+    ["Class", "Backend Engineer", "Senior · 4+ years in production"],
+    ["Main build", "Distributed systems", "Java 21 · Spring Boot · Kafka · AWS"],
+    ["Current guild", "VOIS", "My Vodafone app, Italy"],
+    ["Side skill", "AI agents", "Claude Code skills for the team"],
+  ];
+  return html`
+    <${Box} component="section" id="about" sx=${{ position: "relative", py: { xs: 10, md: 14 }, overflow: "hidden" }}>
+      <${Pattern} opacity=${0.06} />
+      <${Container} maxWidth="lg" sx=${{ position: "relative" }}>
+        <${Grid} container spacing=${{ xs: 5, md: 8 }}>
+          <${Grid} item xs=${12} md=${6}>
+            <${SectionHead} kicker="// character sheet" title=${html`Curious about how things <${Box} component="span" sx=${{ fontFamily: serif, fontStyle: "italic", fontWeight: 400, color: "primary.main" }}>really<//> work.`} />
+            <${Typography} sx=${{ mb: 2 }}>
+              I like the part of software nobody sees: the services, queues and data that have to stay correct when millions of requests hit them at once. When something breaks, I want the real cause, not a workaround.
+            <//>
+            <${Typography} color="text.secondary">
+              Lately I'm deep into AI agents, teaching Claude Code to do the investigative grunt work so engineers can spend their time on the hard problems.
             <//>
           <//>
-          <${IconButton} sx=${{ display: { md: "none" } }} aria-label="Menu" onClick=${(e) => setAnchor(e.currentTarget)}><${MenuIcon} /><//>
-          <${Menu} anchorEl=${anchor} open=${!!anchor} onClose=${() => setAnchor(null)}>
-            ${links.map(([l, h]) => html`<${MenuItem} key=${h} component="a" href=${h} onClick=${() => setAnchor(null)}>${l}<//>`)}
+          <${Grid} item xs=${12} md=${6}>
+            <${Grid} container spacing=${1.5}>
+              ${stats.map(([k, v, s]) => html`
+                <${Grid} item xs=${12} sm=${6} key=${k}>
+                  <${Card} sx=${{ height: "100%" }}><${CardContent} sx=${{ p: 2.5 }}>
+                    <${Kicker} sx=${{ fontSize: 11, color: "text.secondary" }}>${k.toUpperCase()}<//>
+                    <${Typography} variant="h6" sx=${{ mt: 0.75, fontSize: 21, lineHeight: 1.2 }}>${v}<//>
+                    <${Typography} variant="body2" color="text.secondary" sx=${{ mt: 0.5 }}>${s}<//>
+                  <//><//>
+                <//>`)}
+              <${Grid} item xs=${12}>
+                <${Card} sx=${{ background: `linear-gradient(135deg, ${alpha(C.gold, 0.14)}, ${alpha(C.surface, 0.7)})` }}><${CardContent} sx=${{ p: 2.5 }}>
+                  <${Kicker} sx=${{ fontSize: 11 }}>OFF THE CLOCK<//>
+                  <${Typography} sx=${{ mt: 1, fontSize: 16 }}>
+                    Souls-likes and big open-world RPGs (yes, I read the item descriptions). Shonen anime and epic soundtracks for the long debugging nights. On permanent rewatch: Supernatural, Breaking Bad and The Office.
+                  <//>
+                <//><//>
+              <//>
+            <//>
           <//>
         <//>
       <//>
     <//>`;
 }
 
-function Hero({ onCopy }) {
-  return html`
-    <${Container} maxWidth="lg" id="top" sx=${{ pt: { xs: 7, md: 11 }, pb: { xs: 8, md: 12 } }}>
-      <${Grid} container spacing=${{ xs: 6, md: 8 }} alignItems="center">
-        <${Grid} item xs=${12} md=${7}>
-          <${Typography} variant="h1" sx=${{ fontSize: { xs: 56, sm: 80, md: 96 } }}>
-            Abdulrahman<br />
-            <${Box} component="span" sx=${{ fontStyle: "italic", fontWeight: 400, color: "primary.main" }}>Ahmed<//>
-          <//>
-          <${Typography} sx=${{ mt: 3.5, fontSize: { xs: 18, md: 20 }, maxWidth: 560, lineHeight: 1.55 }}>
-            Backend engineer in Cairo. I work on the Java services behind apps people open every day, and I'm usually the one who goes digging when the numbers don't add up.
-          <//>
-          <${Stack} direction="row" spacing=${1.5} sx=${{ mt: 4, flexWrap: "wrap", rowGap: 1.5 }}>
-            <${Button} variant="contained" size="large" href=${"mailto:" + EMAIL} startIcon=${html`<${MailIcon} />`}>Email me<//>
-            <${Button} variant="outlined" size="large" href="#cases">Read the case files<//>
-            <${Tooltip} title="LinkedIn"><${IconButton} href=${LINKEDIN} target="_blank" rel="noopener" aria-label="LinkedIn"><${LinkedInIcon} /><//><//>
-            <${Tooltip} title="GitHub"><${IconButton} href=${GITHUB} target="_blank" rel="noopener" aria-label="GitHub"><${GitHubIcon} /><//><//>
-          <//>
-          <${Stack} direction="row" spacing=${1} sx=${{ mt: 4, flexWrap: "wrap", rowGap: 1 }}>
-            <${Chip} label="Senior SWE @ VOIS" variant="outlined" />
-            <${Chip} label="4+ years in production" variant="outlined" />
-            <${Chip} label="Open to Europe & Gulf" color="primary" variant="outlined" />
-          <//>
-        <//>
-        <${Grid} item xs=${12} md=${5}><${SystemMap} /><//>
-      <//>
-    <//>`;
-}
-
+/* ---------------------------------------------------------------- cases */
 function Cases() {
   const [open, setOpen] = useState("collision");
   return html`
-    <${Container} maxWidth="lg" id="cases" component="section" sx=${{ py: { xs: 8, md: 12 } }}>
-      <${SectionHead} n="01" kicker="case files" title="A few problems I'm glad I got to solve">
-        The CV version is bullet points. Here's what actually happened.
-      <//>
-      <${Stack} spacing=${2}>
-        ${CASES.map((c, i) => html`
-          <${Accordion} key=${c.id} expanded=${open === c.id} onChange=${(_, e) => setOpen(e ? c.id : null)}
-            sx=${{ border: 1, borderColor: open === c.id ? "primary.main" : "divider", borderRadius: "16px !important", transition: "border-color .2s" }}>
-            <${AccordionSummary} expandIcon=${html`<${ExpandIcon} />`} sx=${{ px: { xs: 2, md: 3.5 }, py: 1.5 }}>
-              <${Stack} direction=${{ xs: "column", sm: "row" }} spacing=${{ xs: 0.5, sm: 3 }} alignItems=${{ sm: "baseline" }}>
-                <${Typography} sx=${{ fontFamily: mono, fontSize: 13, color: "secondary.main", minWidth: 40 }}>${String(i + 1).padStart(2, "0")}<//>
-                <${Box}>
-                  <${Typography} variant="h5" sx=${{ fontSize: { xs: 22, md: 28 } }}>${c.title}<//>
-                  <${Typography} variant="body2" color="text.secondary">${c.tag}<//>
+    <${Box} component="section" id="cases" sx=${{ py: { xs: 10, md: 14 }, bgcolor: C.night2, borderBlock: `1px solid ${C.line}` }}>
+      <${Container} maxWidth="lg">
+        <${SectionHead} kicker="// case files · difficulty: hard" title="Bosses I've beaten in production"
+          sub="The CV version is bullet points. This is what actually happened." />
+        <${Stack} spacing=${1.5}>
+          ${CASES.map((c) => {
+            const on = open === c.id;
+            return html`
+              <${Accordion} key=${c.id} expanded=${on} onChange=${(_, e) => setOpen(e ? c.id : null)}
+                sx=${{ border: `1px solid ${on ? alpha(C.gold, 0.6) : C.line}`, borderRadius: "18px !important", transition: "border-color .25s",
+                  boxShadow: on ? `0 0 0 4px ${alpha(C.gold, 0.06)}, 0 20px 60px -30px ${alpha(C.gold, 0.5)}` : "none" }}>
+                <${AccordionSummary} expandIcon=${html`<${ExpandIcon} sx=${{ color: "primary.main" }} />`} sx=${{ px: { xs: 2, md: 3.5 }, py: 1 }}>
+                  <${Box}>
+                    <${Kicker} sx=${{ fontSize: 12 }}>${c.boss} · ${c.tag.toLowerCase()}<//>
+                    <${Typography} variant="h5" sx=${{ fontSize: { xs: 22, md: 30 }, mt: 0.5, lineHeight: 1.15 }}>${c.title}<//>
+                  <//>
                 <//>
-              <//>
-            <//>
-            <${AccordionDetails} sx=${{ px: { xs: 2, md: 3.5 }, pb: 3.5, pl: { sm: 10.5 } }}>
-              <${Grid} container spacing=${3}>
-                ${c.blocks.map(([h, t]) => html`
-                  <${Grid} item xs=${12} sm=${6} key=${h}>
-                    <${Typography} variant="overline" color="primary">${h}<//>
-                    <${Typography} sx=${{ mt: 0.5 }}>${t}<//>
-                  <//>`)}
-              <//>
-              <${Stack} direction="row" spacing=${1} sx=${{ mt: 3, flexWrap: "wrap", rowGap: 1 }}>
-                ${c.stack.map((s) => html`<${Chip} key=${s} label=${s} size="small" />`)}
-              <//>
-            <//>
-          <//>`)}
+                <${AccordionDetails} sx=${{ px: { xs: 2, md: 3.5 }, pb: 3.5 }}>
+                  <${Grid} container spacing=${{ xs: 2.5, md: 4 }}>
+                    ${c.blocks.map(([h, t]) => html`
+                      <${Grid} item xs=${12} md=${6} key=${h}>
+                        <${Typography} sx=${{ fontFamily: serif, fontStyle: "italic", fontSize: 22, color: "primary.main" }}>${h}<//>
+                        <${Typography} sx=${{ mt: 0.5, color: "text.primary" }}>${t}<//>
+                      <//>`)}
+                  <//>
+                  <${Stack} direction="row" sx=${{ mt: 3, gap: 1, flexWrap: "wrap" }}>
+                    ${c.stack.map((s) => html`<${Chip} key=${s} label=${s} size="small" variant="outlined" />`)}
+                  <//>
+                <//>
+              <//>`;
+          })}
+        <//>
       <//>
     <//>`;
 }
 
-function Path() {
-  const Dot = ({ active }) => html`<${Box} sx=${{ width: 14, height: 14, borderRadius: "50%", ml: "5px",
-    bgcolor: active ? "secondary.main" : "background.default", border: 2, borderColor: active ? "secondary.main" : "text.secondary" }} />`;
+/* --------------------------------------------------------------- quests */
+function Quests() {
   return html`
-    <${Box} component="section" id="path" sx=${{ py: { xs: 8, md: 12 }, bgcolor: "background.paper", borderBlock: 1, borderColor: "divider" }}>
+    <${Box} component="section" id="quests" sx=${{ py: { xs: 10, md: 14 } }}>
       <${Container} maxWidth="lg">
-        <${Grid} container spacing=${6}>
+        <${Grid} container spacing=${{ xs: 2, md: 8 }}>
           <${Grid} item xs=${12} md=${4}>
-            <${SectionHead} n="02" kicker="path" title="Where I've been">
-              Three companies, one thread: backends with real traffic, from enterprise clients to a consumer app.
+            <${Box} sx=${{ position: { md: "sticky" }, top: 110 }}>
+              <${SectionHead} kicker="// quest log" title="Where I've leveled up"
+                sub="Three companies, one thread: backends with real traffic, from enterprise clients to a consumer app." />
             <//>
           <//>
           <${Grid} item xs=${12} md=${8}>
-            <${Stepper} orientation="vertical" connector=${null} sx=${{ "& .MuiStepContent-root": { borderColor: "divider", ml: "11px" } }}>
-              ${JOBS.map((j, i) => html`
-                <${Step} key=${j.org} active=${true} expanded=${true}>
-                  <${StepLabel} StepIconComponent=${() => html`<${Dot} active=${i === 0} />`}>
-                    <${Stack} direction=${{ xs: "column", sm: "row" }} justifyContent="space-between" alignItems=${{ sm: "baseline" }} sx=${{ gap: 0.5 }}>
-                      <${Box}>
-                        <${Typography} variant="h6" sx=${{ fontSize: 22, lineHeight: 1.2 }}>${j.org}<//>
-                        <${Typography} variant="body2" color="text.secondary">${j.role} · ${j.where}<//>
-                      <//>
-                      <${Typography} sx=${{ fontFamily: mono, fontSize: 13 }} color="text.secondary">${j.when}<//>
-                    <//>
-                  <//>
-                  <${StepContent} TransitionProps=${{ in: true }}>
-                    <${Typography} sx=${{ pb: 4, pt: 1, maxWidth: 620 }}>${j.text}<//>
-                  <//>
+            <${Box} sx=${{ position: "relative", pl: { xs: 4, sm: 5 } }}>
+              <${Box} sx=${{ position: "absolute", left: { xs: 8, sm: 14 }, top: 8, bottom: 8, width: 2,
+                background: `linear-gradient(${C.gold}, ${alpha(C.gold, 0.1)})` }} />
+              ${QUESTS.map((q) => html`
+                <${Box} key=${q.org} sx=${{ position: "relative", pb: 5, "&:last-of-type": { pb: 0 } }}>
+                  <${Box} sx=${{ position: "absolute", left: { xs: -31, sm: -42 }, top: 4, width: 16, height: 16, transform: "rotate(45deg)",
+                    bgcolor: q.now ? "primary.main" : C.night, border: `2px solid ${C.gold}`,
+                    boxShadow: q.now ? `0 0 18px ${alpha(C.gold, 0.7)}` : "none" }} />
+                  <${Kicker} sx=${{ fontSize: 12, color: q.now ? "primary.main" : "text.secondary" }}>${q.kind.toLowerCase()} · ${q.when}<//>
+                  <${Typography} variant="h5" sx=${{ fontSize: { xs: 26, md: 32 }, mt: 0.5 }}>${q.org}<//>
+                  <${Typography} sx=${{ color: "text.secondary", fontSize: 15 }}>${q.role} · ${q.where}<//>
+                  <${Typography} sx=${{ mt: 1.25, maxWidth: 620 }}>${q.text}<//>
                 <//>`)}
             <//>
           <//>
@@ -352,129 +501,222 @@ function Path() {
     <//>`;
 }
 
+/* ------------------------------------------------------------- projects */
 function Projects() {
-  const [kind, setKind] = useState("all");
-  const shown = PROJECTS.filter((p) => kind === "all" || p.kind === kind);
+  const [tab, setTab] = useState("all");
+  const shown = PROJECTS.filter((p) => tab === "all" || p.kind === tab);
   return html`
-    <${Container} maxWidth="lg" id="projects" component="section" sx=${{ py: { xs: 8, md: 12 } }}>
-      <${Stack} direction=${{ xs: "column", md: "row" }} justifyContent="space-between" alignItems=${{ md: "flex-end" }} sx=${{ mb: { xs: 4, md: 6 }, gap: 3 }}>
-        <${Box} sx=${{ mb: -6 }}><${SectionHead} n="03" kicker="side projects" title="Things I built for fun or for a grade" /><//>
-        <${ToggleButtonGroup} size="small" exclusive value=${kind} onChange=${(_, v) => v && setKind(v)} aria-label="Filter projects">
-          <${ToggleButton} value="all">All<//>
-          <${ToggleButton} value="systems">Systems<//>
-          <${ToggleButton} value="web">Web & AI<//>
+    <${Box} component="section" id="projects" sx=${{ position: "relative", py: { xs: 10, md: 14 }, bgcolor: C.night2, borderBlock: `1px solid ${C.line}`, overflow: "hidden" }}>
+      <${Pattern} opacity=${0.045} sx=${{ maskImage: "linear-gradient(transparent, #000 40%, transparent)", WebkitMaskImage: "linear-gradient(transparent, #000 40%, transparent)" }} />
+      <${Container} maxWidth="lg" sx=${{ position: "relative" }}>
+        <${SectionHead} kicker="// side quests" title="Things I built for fun, or for a grade" />
+        <${Tabs} value=${tab} onChange=${(_, v) => setTab(v)} variant="scrollable" allowScrollButtonsMobile
+          sx=${{ mb: 3, borderBottom: `1px solid ${C.line}`, "& .MuiTabs-indicator": { height: 3, borderRadius: 3 } }}>
+          <${Tab} value="all" label="all" />
+          <${Tab} value="systems" label="hardware & systems" />
+          <${Tab} value="ai" label="algorithms & AI" />
+        <//>
+        <${Grid} container spacing=${2}>
+          ${shown.map((p, i) => html`
+            <${Grid} item xs=${12} sm=${6} md=${4} key=${p.title}>
+              <${Card} sx=${{ height: "100%", display: "flex", flexDirection: "column", transition: "transform .25s, border-color .25s, box-shadow .25s",
+                  "&:hover": { transform: "translateY(-4px)", borderColor: alpha(C.gold, 0.6), boxShadow: `0 24px 50px -30px ${alpha(C.gold, 0.6)}` } }}>
+                <${CardContent} sx=${{ p: 3, flexGrow: 1, display: "flex", flexDirection: "column" }}>
+                  <${Stack} direction="row" justifyContent="space-between" alignItems="center">
+                    <${Typography} sx=${{ fontFamily: serif, fontStyle: "italic", fontSize: 40, lineHeight: 1, color: "primary.main" }}>${String(i + 1).padStart(2, "0")}<//>
+                    ${p.url && html`<${Button} size="small" href=${p.url} target="_blank" rel="noopener" endIcon=${html`<${ArrowIcon} fontSize="small" />`} sx=${{ minHeight: 32 }}>code<//>`}
+                  <//>
+                  <${Typography} variant="h6" sx=${{ mt: 2, fontSize: 21, lineHeight: 1.2 }}>${p.title}<//>
+                  <${Typography} variant="body2" color="text.secondary" sx=${{ mt: 1, fontSize: 15, flexGrow: 1 }}>${p.text}<//>
+                  <${Stack} direction="row" sx=${{ mt: 2.5, gap: 0.75, flexWrap: "wrap" }}>
+                    ${p.stack.map((s) => html`<${Chip} key=${s} label=${s} size="small" variant="outlined" />`)}
+                  <//>
+                <//>
+              <//>
+            <//>`)}
         <//>
       <//>
-      <${Grid} container spacing=${2.5}>
-        ${shown.map((p, i) => html`
-          <${Grid} item xs=${12} sm=${6} md=${4} key=${p.title}>
-            <${Card} sx=${{ height: "100%", display: "flex", flexDirection: "column", transition: "transform .2s, border-color .2s",
-                "&:hover": { transform: "translateY(-4px)", borderColor: "primary.main" } }}>
-              <${CardContent} sx=${{ flexGrow: 1, p: 3 }}>
-                <${Typography} sx=${{ fontFamily: serif, fontStyle: "italic", fontSize: 40, lineHeight: 1, color: "secondary.main", mb: 2 }}>${String(i + 1).padStart(2, "0")}<//>
-                <${Typography} variant="h6" sx=${{ fontSize: 21, lineHeight: 1.25, mb: 1.25 }}>${p.title}<//>
-                <${Typography} variant="body2" color="text.secondary" sx=${{ fontSize: 15 }}>${p.text}<//>
-              <//>
-              <${CardActions} sx=${{ px: 3, pb: 2.5, justifyContent: "space-between", flexWrap: "wrap", gap: 1 }}>
-                <${Stack} direction="row" spacing=${0.75} sx=${{ flexWrap: "wrap", rowGap: 0.75 }}>
-                  ${p.stack.map((s) => html`<${Chip} key=${s} label=${s} size="small" />`)}
-                <//>
-                ${p.url && html`<${Button} size="small" href=${p.url} target="_blank" rel="noopener" endIcon=${html`<${ArrowIcon} fontSize="small" />`}>Code<//>`}
-              <//>
-            <//>
-          <//>`)}
-      <//>
     <//>`;
 }
 
-function Toolbox() {
+/* ------------------------------------------------------------ inventory */
+function Inventory() {
   return html`
-    <${Container} maxWidth="lg" component="section" sx=${{ pb: { xs: 8, md: 12 } }}>
-      <${SectionHead} n="04" kicker="toolbox" title="What I reach for" />
-      <${Stack} divider=${html`<${Divider} flexItem />`} spacing=${3}>
-        ${TOOLBOX.map(([tier, items], i) => html`
-          <${Grid} container spacing=${2} key=${tier} alignItems="baseline">
-            <${Grid} item xs=${12} md=${3}>
-              <${Typography} variant="h6" sx=${{ fontStyle: "italic", fontWeight: 500 }}>${tier}<//>
-            <//>
-            <${Grid} item xs=${12} md=${9}>
-              <${Stack} direction="row" sx=${{ flexWrap: "wrap", gap: 1 }}>
-                ${items.map((s) => html`<${Chip} key=${s} label=${s} color=${i === 0 ? "primary" : "default"} variant=${i === 0 ? "filled" : "outlined"} />`)}
+    <${Box} component="section" sx=${{ py: { xs: 10, md: 14 } }}>
+      <${Container} maxWidth="lg">
+        <${SectionHead} kicker="// inventory" title="What I carry into battle" />
+        <${Stack} divider=${html`<${Divider} flexItem />`} spacing=${3}>
+          ${INVENTORY.map(([slot, items], i) => html`
+            <${Grid} container spacing=${2} key=${slot} alignItems="baseline">
+              <${Grid} item xs=${12} md=${3}>
+                <${Typography} sx=${{ fontFamily: serif, fontStyle: "italic", fontSize: 26, color: i === 0 ? "primary.main" : "text.primary" }}>${slot}<//>
               <//>
-            <//>
-          <//>`)}
+              <${Grid} item xs=${12} md=${9}>
+                <${Stack} direction="row" sx=${{ gap: 1, flexWrap: "wrap" }}>
+                  ${items.map((s) => html`<${Chip} key=${s} label=${s} color=${i === 0 ? "primary" : "default"} variant=${i === 0 ? "filled" : "outlined"} />`)}
+                <//>
+              <//>
+            <//>`)}
+        <//>
       <//>
     <//>`;
 }
 
+/* -------------------------------------------------------------- contact */
 function Contact({ onCopy }) {
   return html`
-    <${Box} component="section" id="contact" sx=${{ bgcolor: "primary.main", color: "primary.contrastText", py: { xs: 9, md: 14 } }}>
-      <${Container} maxWidth="lg">
-        <${Typography} variant="overline" sx=${{ opacity: 0.8 }}>05 · contact<//>
-        <${Typography} variant="h1" sx=${{ fontSize: { xs: 52, md: 96 }, mt: 1 }}>
-          Let's <${Box} component="span" sx=${{ fontStyle: "italic", fontWeight: 400 }}>talk.<//>
+    <${Box} component="section" id="contact" sx=${{ position: "relative", overflow: "hidden", py: { xs: 12, md: 16 },
+      background: `radial-gradient(800px 400px at 50% 120%, ${alpha(C.gold, 0.25)}, transparent 70%), ${C.night2}`, borderTop: `1px solid ${C.line}` }}>
+      <${Pattern} opacity=${0.07} />
+      <${Container} maxWidth="md" sx=${{ position: "relative", textAlign: "center" }}>
+        <${Kicker}>// new quest available<//>
+        <${Typography} variant="h1" sx=${{ mt: 2, fontSize: { xs: 52, sm: 76, md: 104 } }}>
+          Let's build<br /><${Box} component="span" sx=${{ fontFamily: serif, fontStyle: "italic", fontWeight: 400, color: "primary.main" }}>something.<//>
         <//>
-        <${Typography} sx=${{ mt: 3, fontSize: 19, maxWidth: 560, opacity: 0.9 }}>
-          I'm open to backend roles, remote or with relocation to Europe or the Gulf. Email is the fastest way to reach me.
+        <${Typography} sx=${{ mt: 3, mx: "auto", maxWidth: 520, color: "text.secondary" }}>
+          I'm open to backend roles, remote or with relocation to Europe or the Gulf. Email reaches me fastest.
         <//>
-        <${Stack} direction=${{ xs: "column", sm: "row" }} spacing=${1.5} sx=${{ mt: 5 }} alignItems=${{ sm: "center" }}>
-          <${Button} variant="contained" size="large" href=${"mailto:" + EMAIL} startIcon=${html`<${MailIcon} />`}
-            sx=${{ bgcolor: "background.default", color: "text.primary", "&:hover": { bgcolor: "background.paper" }, textTransform: "none", overflowWrap: "anywhere" }}>${EMAIL}<//>
-          <${Tooltip} title="Copy email">
-            <${IconButton} onClick=${onCopy} aria-label="Copy email" sx=${{ color: "inherit", border: 1, borderColor: "currentColor", alignSelf: { xs: "flex-start", sm: "center" } }}><${CopyIcon} fontSize="small" /><//>
-          <//>
+        <${Stack} direction=${{ xs: "column", sm: "row" }} sx=${{ mt: 5, gap: 1.5, justifyContent: "center", alignItems: "center" }}>
+          <${Button} variant="contained" href=${"mailto:" + EMAIL} startIcon=${html`<${MailIcon} />`}>Send a raven<//>
+          <${Button} variant="outlined" onClick=${onCopy} startIcon=${html`<${CopyIcon} fontSize="small" />`} sx=${{ borderColor: alpha(C.gold, 0.5) }}>Copy email<//>
         <//>
-        <${Stack} direction="row" spacing=${3} sx=${{ mt: 4 }}>
-          <${Link} href=${LINKEDIN} target="_blank" rel="noopener" color="inherit" underline="hover">LinkedIn ↗<//>
-          <${Link} href=${GITHUB} target="_blank" rel="noopener" color="inherit" underline="hover">GitHub ↗<//>
+        <${Typography} sx=${{ mt: 2.5, fontFamily: mono, fontSize: 13, color: "text.secondary", overflowWrap: "anywhere" }}>${EMAIL}<//>
+        <${Stack} direction="row" sx=${{ mt: 4, gap: 3, justifyContent: "center" }}>
+          <${Link} href=${LINKEDIN} target="_blank" rel="noopener" underline="hover" sx=${{ color: "text.secondary" }}>LinkedIn ↗<//>
+          <${Link} href=${GITHUB} target="_blank" rel="noopener" underline="hover" sx=${{ color: "text.secondary" }}>GitHub ↗<//>
         <//>
       <//>
     <//>`;
 }
 
+/* ------------------------------------------- command palette + easter eggs */
+const SECRETS = {
+  "say my name": "Abdulrahman Ahmed. You're goddamn right.",
+  "bears beets": "Bears. Beets. Backend systems.",
+  "family business": "Saving people, hunting bugs. The family business.",
+  "that's what she said": "…about the 15,000-row key collision.",
+  "thats what she said": "…about the 15,000-row key collision.",
+  "git blame": "It was me. I fixed it, though.",
+  "praise the sun": "\\[T]/  Bonfire lit. Progress saved.",
+  "sudo hire abdulrahman": "Permission granted. Opening your mail client…",
+};
+
+function Palette({ open, onClose, onToast, onCopy }) {
+  const [q, setQ] = useState("");
+  const [sel, setSel] = useState(0);
+  useEffect(() => { if (open) { setQ(""); setSel(0); } }, [open]);
+  const go = (h) => { onClose(); setTimeout(() => { const el = document.querySelector(h); el && el.scrollIntoView({ behavior: "smooth" }); }, 120); };
+  const cmds = [
+    ...SECTIONS.map(([l, h]) => ({ label: "Go to " + l.toLowerCase(), hint: h, run: () => go(h) })),
+    { label: "Email Abdulrahman", hint: "mailto", run: () => { onClose(); location.href = "mailto:" + EMAIL; } },
+    { label: "Copy email address", hint: "clipboard", run: () => { onClose(); onCopy(); } },
+    { label: "Open LinkedIn", hint: "↗", run: () => { onClose(); window.open(LINKEDIN, "_blank", "noopener"); } },
+    { label: "Open GitHub", hint: "↗", run: () => { onClose(); window.open(GITHUB, "_blank", "noopener"); } },
+  ];
+  const key = q.trim().toLowerCase().replace(/[’]/g, "'");
+  const list = cmds.filter((c) => c.label.toLowerCase().includes(key));
+  const submit = () => {
+    if (SECRETS[key]) {
+      onClose(); onToast(SECRETS[key]);
+      if (key === "sudo hire abdulrahman") setTimeout(() => { location.href = "mailto:" + EMAIL + "?subject=Let's%20talk"; }, 900);
+      return;
+    }
+    if (list[sel]) list[sel].run();
+  };
+  return html`
+    <${Dialog} open=${open} onClose=${onClose} fullWidth maxWidth="sm"
+      PaperProps=${{ sx: { bgcolor: C.night2, border: `1px solid ${alpha(C.gold, 0.35)}`, borderRadius: 4, m: 2, width: "calc(100% - 32px)", alignSelf: "flex-start", mt: "12vh" } }}>
+      <${Box} component="form" onSubmit=${(e) => { e.preventDefault(); submit(); }}
+        sx=${{ display: "flex", alignItems: "center", gap: 1.5, px: 2.5, py: 1.75, borderBottom: `1px solid ${C.line}` }}>
+        <${Typography} sx=${{ fontFamily: mono, color: "primary.main" }}>❯<//>
+        <${InputBase} autoFocus fullWidth placeholder="type a command… (some are secret)" value=${q}
+          onChange=${(e) => { setQ(e.target.value); setSel(0); }}
+          onKeyDown=${(e) => {
+            if (e.key === "ArrowDown") { e.preventDefault(); setSel((s) => Math.min(s + 1, list.length - 1)); }
+            if (e.key === "ArrowUp") { e.preventDefault(); setSel((s) => Math.max(s - 1, 0)); }
+          }}
+          inputProps=${{ "aria-label": "Command", autoCapitalize: "none", autoCorrect: "off", spellCheck: false, enterKeyHint: "go" }}
+          sx=${{ fontFamily: mono, fontSize: 16, color: "text.primary" }} />
+      <//>
+      <${List} dense sx=${{ py: 1, maxHeight: 340, overflowY: "auto" }}>
+        ${list.length === 0 && html`<${Typography} sx=${{ px: 3, py: 2, fontFamily: mono, fontSize: 13, color: "text.secondary" }}>
+          no command found. press enter anyway. you never know.<//>`}
+        ${list.map((c, i) => html`
+          <${ListItemButton} key=${c.label} selected=${i === sel} onClick=${c.run} onMouseEnter=${() => setSel(i)}
+            sx=${{ mx: 1, borderRadius: 2, "&.Mui-selected": { bgcolor: alpha(C.gold, 0.12) } }}>
+            <${ListItemText} primary=${c.label} primaryTypographyProps=${{ fontWeight: 600 }} />
+            <${Typography} sx=${{ fontFamily: mono, fontSize: 12, color: "text.secondary" }}>${c.hint}<//>
+          <//>`)}
+      <//>
+    <//>`;
+}
+
+function Felled({ show }) {
+  if (!show) return null;
+  return html`
+    <${Box} aria-live="polite" sx=${{ position: "fixed", inset: 0, zIndex: 2000, display: "grid", placeItems: "center", pointerEvents: "none",
+      background: `linear-gradient(transparent 30%, ${alpha("#000", 0.75)} 45%, ${alpha("#000", 0.75)} 55%, transparent 70%)` }}>
+      <${Typography} sx=${{ fontFamily: serif, fontSize: { xs: 44, md: 88 }, color: C.goldSoft, textShadow: `0 0 30px ${alpha(C.gold, 0.8)}`,
+        animation: "felled 3.2s ease forwards", textAlign: "center", px: 2 }}>BUG FELLED<//>
+    <//>`;
+}
+
+/* ------------------------------------------------------------------ app */
 function App() {
-  const prefersDark = useMediaQuery("(prefers-color-scheme: dark)");
-  const [mode, setMode] = useState(() => { try { return localStorage.getItem("mode"); } catch (e) { return null; } });
-  const effective = mode || (prefersDark ? "dark" : "light");
-  const theme = useMemo(() => makeTheme(effective), [effective]);
-  const [copied, setCopied] = useState(false);
-  const toggle = () => { const m = effective === "dark" ? "light" : "dark"; setMode(m); try { localStorage.setItem("mode", m); } catch (e) {} };
-  const copy = () => { (navigator.clipboard ? navigator.clipboard.writeText(EMAIL) : Promise.reject()).then(() => setCopied(true), () => setCopied(true)); };
+  const [palette, setPalette] = useState(false);
+  const [toast, setToast] = useState(null);
+  const [felled, setFelled] = useState(false);
+  const copy = useCallback(() => {
+    const done = () => setToast("Email copied. A raven is on standby.");
+    navigator.clipboard ? navigator.clipboard.writeText(EMAIL).then(done, done) : done();
+  }, []);
 
   useEffect(() => {
-    const r = document.documentElement.style, p = theme.palette;
-    r.setProperty("--flow", p.secondary.main);
-    r.setProperty("--node", p.background.default);
-    r.setProperty("--node-on", p.primary.main);
-    r.setProperty("--node-on-text", p.primary.contrastText);
-  }, [theme]);
+    const seq = ["arrowup","arrowup","arrowdown","arrowdown","arrowleft","arrowright","arrowleft","arrowright","b","a"];
+    let pos = 0;
+    const onKey = (e) => {
+      const tag = (e.target.tagName || "").toLowerCase();
+      const k = (e.key || "").toLowerCase();
+      if ((k === "/" || (k === "k" && (e.metaKey || e.ctrlKey))) && tag !== "input" && tag !== "textarea") {
+        e.preventDefault(); setPalette(true); return;
+      }
+      pos = k === seq[pos] ? pos + 1 : (k === seq[0] ? 1 : 0);
+      if (pos === seq.length) { pos = 0; setFelled(true); setTimeout(() => setFelled(false), 3300); }
+    };
+    window.addEventListener("keydown", onKey);
+    console.log("%cCurious? Good.%c\nPress / on the page. Some commands aren't listed.", "color:#E9B85C;font:700 18px sans-serif", "color:#A3ABC8;font:13px monospace");
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
   return html`
     <${ThemeProvider} theme=${theme}>
       <${CssBaseline} />
-      <${Box} sx=${{
-        backgroundImage: (t) => `radial-gradient(${alpha(t.palette.text.primary, 0.09)} 1px, transparent 1px)`,
-        backgroundSize: "22px 22px", minHeight: "100vh" }}>
-        <${Nav} mode=${effective} toggle=${toggle} />
-        <${Hero} />
-        <${Box} sx=${{ bgcolor: "background.default" }}>
-          <${Cases} />
-          <${Path} />
-          <${Projects} />
-          <${Toolbox} />
-        <//>
-        <${Contact} onCopy=${copy} />
-        <${Box} component="footer" sx=${{ bgcolor: "background.default", py: 4 }}>
-          <${Container} maxWidth="lg">
-            <${Stack} direction=${{ xs: "column", sm: "row" }} justifyContent="space-between" sx=${{ gap: 1 }}>
-              <${Typography} variant="body2" color="text.secondary">© ${new Date().getFullYear()} Abdulrahman Ahmed · Cairo, Egypt<//>
+      <${Nav} onPalette=${() => setPalette(true)} />
+      <${Hero} />
+      <main>
+        <${About} />
+        <${Cases} />
+        <${Quests} />
+        <${Projects} />
+        <${Inventory} />
+      </main>
+      <${Contact} onCopy=${copy} />
+      <${Box} component="footer" sx=${{ py: 4, borderTop: `1px solid ${C.line}`, bgcolor: C.night }}>
+        <${Container} maxWidth="lg">
+          <${Stack} direction=${{ xs: "column", sm: "row" }} justifyContent="space-between" sx=${{ gap: 1 }}>
+            <${Typography} variant="body2" color="text.secondary">© ${new Date().getFullYear()} Abdulrahman Ahmed · Cairo, Egypt<//>
+            <${Typography} component="button" onClick=${() => setPalette(true)} variant="body2"
+              sx=${{ fontFamily: mono, color: "text.secondary", cursor: "pointer", background: "none", border: 0, p: 0, textAlign: "left" }}>
+              psst. press <${Box} component="span" sx=${{ color: "primary.main" }}>/<//> (or tap here)
             <//>
           <//>
         <//>
       <//>
-      <${Snackbar} open=${copied} autoHideDuration=${2200} onClose=${() => setCopied(false)} anchorOrigin=${{ vertical: "bottom", horizontal: "center" }}>
-        <${Alert} severity="success" variant="filled" onClose=${() => setCopied(false)}>Email copied<//>
+      <${Palette} open=${palette} onClose=${() => setPalette(false)} onToast=${setToast} onCopy=${copy} />
+      <${Felled} show=${felled} />
+      <${Snackbar} open=${!!toast} autoHideDuration=${3400} onClose=${() => setToast(null)} anchorOrigin=${{ vertical: "bottom", horizontal: "center" }}>
+        <${Alert} severity="info" variant="filled" icon=${false} onClose=${() => setToast(null)}
+          sx=${{ bgcolor: C.surface, color: "text.primary", border: `1px solid ${alpha(C.gold, 0.5)}`, fontFamily: mono, fontSize: 13 }}>${toast}<//>
       <//>
     <//>`;
 }
