@@ -142,6 +142,16 @@ function Desert() {
     <//>`;
 }
 
+/* -------------------------------------------------- element tile (Ab) */
+const Element = ({ sym = "Ab", num = "13", sx }) => html`
+  <${Box} component="span" aria-hidden="true" sx=${{ position: "relative", display: "inline-flex", alignItems: "center", justifyContent: "center",
+    width: "1em", height: "1em", mr: "0.04em", verticalAlign: "-0.17em", flexShrink: 0,
+    background: "linear-gradient(145deg, #3F8A3F 0%, #23602A 45%, #123D18 100%)",
+    border: "0.035em solid #8CC98A", boxShadow: "inset 0 0 0 0.02em rgba(0,0,0,.35), 0 0.03em 0.08em rgba(0,0,0,.35)", ...sx }}>
+    <${Box} component="span" sx=${{ position: "absolute", top: "0.08em", left: "0.1em", fontFamily: body, fontWeight: 600, fontSize: "0.15em", lineHeight: 1, color: "#E8F4E0" }}>${num}<//>
+    <${Box} component="span" sx=${{ fontFamily: body, fontWeight: 700, fontSize: "0.56em", letterSpacing: "-0.02em", lineHeight: 1, color: "#FFFFFF", mt: "0.12em" }}>${sym}<//>
+  <//>`;
+
 /* ------------------------------------------------------------- headings */
 const Label = ({ children, sx, color = C.haz }) => html`<${Typography} component="div" sx=${{ fontFamily: mono, fontSize: 12, fontWeight: 600, letterSpacing: ".18em", color, textTransform: "uppercase", ...sx }}>${children}<//>`;
 function SectionHead({ label, title, sub, dark }) {
@@ -237,8 +247,8 @@ function Nav({ onPalette }) {
       <${Container} maxWidth="lg">
         <${Toolbar} disableGutters sx=${{ gap: 1, minHeight: "55px !important" }}>
           <${Link} href="#top" underline="none" sx=${{ display: "flex", alignItems: "center", gap: 1.25, flexGrow: 1, color: C.sand, minWidth: 0 }}>
-            <${Typography} noWrap sx=${{ fontFamily: head, fontSize: { xs: 26, md: 28 }, letterSpacing: ".05em", lineHeight: 1, pt: "4px" }}>
-              Abdulrahman <${Box} component="span" sx=${{ color: C.haz }}>Ahmed<//>
+            <${Typography} noWrap aria-label="Abdulrahman Ahmed" sx=${{ fontFamily: head, fontSize: { xs: 28, md: 30 }, letterSpacing: ".04em", lineHeight: 1, pt: "3px" }}>
+              <${Element} sx=${{ fontSize: "1.3em", verticalAlign: "-0.24em", mr: "0.05em" }} />dulrahman <${Box} component="span" sx=${{ color: C.haz }}>Ahmed<//>
             <//>
           <//>
           <${Stack} direction="row" sx=${{ display: { xs: "none", md: "flex" } }}>
@@ -276,8 +286,8 @@ function Hero() {
           <${Box} sx=${{ bgcolor: C.ink, color: C.haz, px: 1.25, py: 0.5, fontFamily: mono, fontSize: 12, fontWeight: 600, letterSpacing: ".14em" }}>CAIRO, EGYPT<//>
           <${Box} sx=${{ border: `2px solid ${C.ink}`, px: 1.25, py: 0.3, fontFamily: mono, fontSize: 12, fontWeight: 600, letterSpacing: ".14em" }}>SENIOR BACKEND ENGINEER<//>
         <//>
-        <${Typography} variant="h1" sx=${{ mt: { xs: 2.5, md: 3 }, fontSize: { xs: "clamp(64px, 19vw, 120px)", md: 168 } }}>
-          Abdulrahman<br />Ahmed
+        <${Typography} variant="h1" aria-label="Abdulrahman Ahmed" sx=${{ mt: { xs: 2.5, md: 3 }, fontSize: { xs: "clamp(60px, 17.5vw, 120px)", md: 168 } }}>
+          <${Box} component="span" sx=${{ whiteSpace: "nowrap" }}><${Element} sx=${{ verticalAlign: "-0.1em", mr: "0.03em" }} />dulrahman<//><br />Ahmed
         <//>
         <${Typography} sx=${{ mt: { xs: 2, md: 2.5 }, fontFamily: type, fontSize: { xs: 22, md: 30 }, lineHeight: 1.25 }}>“I am the one who gets paged.”<//>
         <${Typography} sx=${{ mt: 1.5, maxWidth: 540, fontSize: { xs: 17, md: 19 }, color: alpha(C.ink, 0.85), fontWeight: 500 }}>
@@ -362,7 +372,11 @@ function CaseFile({ c, open, onToggle }) {
   const [kind, agency] = c.filed.split(" · ");
   const teaser = c.fields[0][1];
   return html`
-    <${Box} sx=${{ position: "relative", pt: "30px" }}>
+    <${Box} sx=${{ position: "relative", pt: "30px", transform: { md: `rotate(${({ "01": -0.35, "02": 0.3, "03": -0.2 })[c.id] || 0}deg)` } }}>
+      <${Box} component="svg" viewBox="0 0 24 64" aria-hidden="true" sx=${{ position: "absolute", zIndex: 3, top: 14, right: { xs: 18, md: 150 }, width: { xs: 16, md: 20 }, height: { xs: 44, md: 54 },
+        filter: "drop-shadow(1px 2px 1px rgba(0,0,0,.45))" }}>
+        <path d="M7 20 V50 a5 5 0 0 0 10 0 V12 a8 8 0 0 0 -16 0 V48" fill="none" stroke="#B9BEC4" strokeWidth="2.4" strokeLinecap="round" />
+      <//>
       <${Box} sx=${{ position: "absolute", top: 0, left: { xs: 12, md: 24 }, bgcolor: C.manila, color: C.ink, px: 2, height: 32, display: "flex", alignItems: "center", gap: 1,
         borderRadius: "8px 8px 0 0", fontFamily: mono, fontSize: 12, fontWeight: 600, letterSpacing: ".14em" }}>
         <${Box} sx=${{ width: 8, height: 8, borderRadius: "50%", bgcolor: C.stamp }} />FILE ${c.id}
@@ -371,8 +385,15 @@ function CaseFile({ c, open, onToggle }) {
         bgcolor: C.manila, boxShadow: open ? "0 30px 60px -24px rgba(0,0,0,.9)" : "0 14px 30px -20px rgba(0,0,0,.8)", transition: "box-shadow .3s",
         backgroundImage: `radial-gradient(ellipse at 50% 40%, transparent 55%, ${alpha("#5A3A0A", 0.22)} 100%), repeating-linear-gradient(90deg, ${alpha("#7A5A20", 0.035)} 0 2px, transparent 2px 7px)` }}>
 
+        <${Box} aria-hidden="true" sx=${{ position: "absolute", display: { xs: "none", md: "block" }, right: 24, bottom: -48, fontFamily: head, fontSize: { xs: 150, md: 260 },
+          lineHeight: 1, color: alpha(C.ink, 0.07), pointerEvents: "none", userSelect: "none" }}>${c.id}<//>
+        <${Box} sx=${{ position: "relative", display: "flex", justifyContent: "space-between", gap: 2, px: { xs: 2.5, md: 4 }, pt: { xs: 1.5, md: 2 },
+          fontFamily: type, fontSize: 13, color: alpha(C.ink, 0.65), borderBottom: `1px solid ${alpha(C.ink, 0.18)}`, pb: 1 }}>
+          <span>Case report · Dept. of Production Systems</span>
+          <${Box} component="span" sx=${{ color: C.stamp, letterSpacing: ".1em", display: { xs: "none", sm: "inline" } }}>CONFIDENTIAL<//>
+        <//>
         <${ButtonBase} className="case-head" onClick=${onToggle} aria-expanded=${open} aria-controls=${"case-" + c.id}
-          sx=${{ width: "100%", display: "flex", alignItems: "flex-start", gap: { xs: 2, md: 3 }, textAlign: "left", p: { xs: 2.5, md: 4 } }}>
+          sx=${{ position: "relative", width: "100%", display: "flex", alignItems: "flex-start", gap: { xs: 2, md: 3 }, textAlign: "left", p: { xs: 2.5, md: 4 }, pt: { xs: 2, md: 3 } }}>
           <${Box} sx=${{ flexGrow: 1, minWidth: 0 }}>
             <${Stack} direction="row" alignItems="center" sx=${{ gap: 1, flexWrap: "wrap" }}>
               <${Box} sx=${{ bgcolor: C.ink, color: C.manila, px: 1, py: "3px", fontFamily: mono, fontSize: 11, fontWeight: 600, letterSpacing: ".14em" }}>${kind.toUpperCase()}<//>
@@ -389,7 +410,7 @@ function CaseFile({ c, open, onToggle }) {
           <${Toggle} open=${open} />
         <//>
 
-        <${Collapse} in=${open} timeout=${350} id=${"case-" + c.id}>
+        <${Collapse} in=${open} timeout=${350} id=${"case-" + c.id} sx=${{ position: "relative" }}>
           <${Box} sx=${{ mx: { xs: 2.5, md: 4 }, borderTop: `3px double ${alpha(C.ink, 0.55)}` }} />
           <${Box} sx=${{ px: { xs: 2.5, md: 4 }, pt: 1, pb: { xs: 3, md: 4 } }}>
             ${c.fields.map(([k, v]) => html`
