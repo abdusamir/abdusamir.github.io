@@ -54,7 +54,7 @@ const {
   createTheme, ThemeProvider, CssBaseline, alpha,
   AppBar, Toolbar, Container, Box, Stack, Grid, Typography, Button, IconButton, Link,
   Chip, Collapse, Dialog, InputBase, List, ListItemButton, ListItemText, Snackbar, Alert,
-  Tooltip, Drawer, SvgIcon, ButtonBase
+  Drawer, SvgIcon, ButtonBase
 } = MaterialUI;
 
 const EMAIL = "abdelrahmanaabdelmalek@gmail.com";
@@ -248,15 +248,13 @@ function Nav({ onPalette }) {
         <${Toolbar} disableGutters sx=${{ gap: 1, minHeight: "55px !important" }}>
           <${Link} href="#top" underline="none" sx=${{ display: "flex", alignItems: "center", gap: 1.25, flexGrow: 1, color: C.sand, minWidth: 0 }}>
             <${Typography} noWrap aria-label="Abdulrahman Ahmed" sx=${{ fontFamily: head, fontSize: { xs: 28, md: 30 }, letterSpacing: ".04em", lineHeight: 1, pt: "3px" }}>
-              <${Element} sx=${{ fontSize: "1.3em", verticalAlign: "-0.24em", mr: "0.05em" }} />dulrahman <${Box} component="span" sx=${{ color: C.haz }}>Ahmed<//>
+              <${Element} sx=${{ fontSize: "0.95em", verticalAlign: "0.14em", mr: "0.06em" }} />dulrahman <${Box} component="span" sx=${{ color: C.haz }}>Ahmed<//>
             <//>
           <//>
           <${Stack} direction="row" sx=${{ display: { xs: "none", md: "flex" } }}>
             ${SECTIONS.map(([l, h]) => html`<${Button} key=${h} href=${h} sx=${{ color: C.muted, fontSize: 19, minHeight: 36, px: 1.5, "&:hover": { color: C.haz, bgcolor: "transparent" } }}>${l}<//>`)}
           <//>
-          <${Tooltip} title="Command line ( / )">
-            <${IconButton} onClick=${onPalette} aria-label="Open command line" sx=${{ color: C.haz }}><${TermIcon} /><//>
-          <//>
+          <${IconButton} onClick=${onPalette} aria-label="Open command line" title="Command line ( / )" sx=${{ color: C.haz }}><${TermIcon} /><//>
           <${IconButton} aria-label="Open menu" edge="end" sx=${{ display: { md: "none" }, color: C.sand }} onClick=${() => setOpen(true)}><${MenuIcon} /><//>
         <//>
       <//>
@@ -287,7 +285,7 @@ function Hero() {
           <${Box} sx=${{ border: `2px solid ${C.ink}`, px: 1.25, py: 0.3, fontFamily: mono, fontSize: 12, fontWeight: 600, letterSpacing: ".14em" }}>SENIOR BACKEND ENGINEER<//>
         <//>
         <${Typography} variant="h1" aria-label="Abdulrahman Ahmed" sx=${{ mt: { xs: 2.5, md: 3 }, fontSize: { xs: "clamp(60px, 17.5vw, 120px)", md: 168 } }}>
-          <${Box} component="span" sx=${{ whiteSpace: "nowrap" }}><${Element} sx=${{ verticalAlign: "-0.1em", mr: "0.03em" }} />dulrahman<//><br />Ahmed
+          <${Box} component="span" sx=${{ whiteSpace: "nowrap" }}><${Element} sx=${{ verticalAlign: "0.1em", mr: "0.04em" }} />dulrahman<//><br />Ahmed
         <//>
         <${Typography} sx=${{ mt: { xs: 2, md: 2.5 }, fontFamily: type, fontSize: { xs: 22, md: 30 }, lineHeight: 1.25 }}>“I am the one who gets paged.”<//>
         <${Typography} sx=${{ mt: 1.5, maxWidth: 540, fontSize: { xs: 17, md: 19 }, color: alpha(C.ink, 0.85), fontWeight: 500 }}>
