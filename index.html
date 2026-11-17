@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Abdelrahman Ahmed · Backend Engineer</title>
+<meta name="description" content="Abdelrahman Ahmed is a senior backend engineer in Cairo who builds Java and Spring Boot microservices for telecom and billing platforms.">
+<meta property="og:title" content="Abdelrahman Ahmed · Backend Engineer">
+<meta property="og:description" content="Senior backend engineer: Java 21, Spring Boot, Kafka, AWS. Telecom and billing platforms.">
+<meta property="og:type" content="website">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #fbfbfa; --surface: #ffffff; --text: #1a1a1a; --muted: #5f6368;
+  --line: #e7e5e2; --accent: #1f5fbf; --accent-soft: #e8effa; --chip: #f1f0ee;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1113; --surface: #16191c; --text: #e8e6e3; --muted: #9aa0a6;
+    --line: #262a2f; --accent: #7aa7f0; --accent-soft: #1a2638; --chip: #1e2226;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1113; --surface: #16191c; --text: #e8e6e3; --muted: #9aa0a6;
+  --line: #262a2f; --accent: #7aa7f0; --accent-soft: #1a2638; --chip: #1e2226;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font: 16px/1.65 Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.wrap { max-width: 760px; margin: 0 auto; padding: 0 20px; }
+
+/* nav */
+nav { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 56px; }
+.brand { font-weight: 600; color: var(--text); white-space: nowrap; }
+.links { display: flex; gap: 22px; align-items: center; font-size: 14px; }
+.links a { color: var(--muted); }
+.links a:hover { color: var(--text); text-decoration: none; }
+#theme { background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 8px;
+  width: 32px; height: 32px; cursor: pointer; display: grid; place-items: center; }
+#theme:hover { color: var(--text); }
+@media (max-width: 600px) { .links a.opt { display: none; } .links { gap: 16px; } }
+
+/* hero */
+header.hero { padding: 88px 0 56px; }
+.hero .eyebrow { font: 500 13px/1 "JetBrains Mono", monospace; color: var(--accent); letter-spacing: .02em; }
+.hero h1 { font-size: clamp(34px, 6vw, 48px); line-height: 1.1; margin: 14px 0 18px; letter-spacing: -.02em; }
+.hero p.lede { font-size: 18px; color: var(--muted); max-width: 600px; margin: 0 0 28px; }
+.cta { display: flex; flex-wrap: wrap; gap: 10px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 8px;
+  font-size: 14px; font-weight: 500; border: 1px solid var(--line); color: var(--text); background: var(--surface); }
+.btn:hover { text-decoration: none; border-color: var(--muted); }
+.btn.primary { background: var(--text); color: var(--bg); border-color: var(--text); }
+.btn svg { width: 16px; height: 16px; }
+.status { margin-top: 26px; font-size: 14px; color: var(--muted); display: flex; align-items: center; gap: 8px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: #2ea44f; box-shadow: 0 0 0 3px color-mix(in srgb, #2ea44f 25%, transparent); }
+
+/* sections */
+section { padding: 48px 0; border-top: 1px solid var(--line); }
+h2 { font-size: 13px; font-family: "JetBrains Mono", monospace; font-weight: 500; text-transform: uppercase;
+  letter-spacing: .08em; color: var(--muted); margin: 0 0 28px; }
+h3 { font-size: 17px; margin: 0; font-weight: 600; }
+
+/* experience */
+.job { display: grid; grid-template-columns: 150px 1fr; gap: 20px; margin-bottom: 36px; }
+.job:last-child { margin-bottom: 0; }
+.when { font-size: 14px; color: var(--muted); padding-top: 2px; }
+.org { color: var(--muted); font-size: 15px; margin: 2px 0 10px; }
+.job ul { margin: 0; padding-left: 18px; }
+.job li { margin-bottom: 6px; }
+.job li::marker { color: var(--muted); }
+@media (max-width: 600px) { .job { grid-template-columns: 1fr; gap: 4px; } }
+
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.tag { font: 12px/1 "JetBrains Mono", monospace; background: var(--chip); color: var(--muted);
+  padding: 5px 8px; border-radius: 6px; }
+
+/* projects */
+.grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+@media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px;
+  display: flex; flex-direction: column; transition: border-color .15s, transform .15s; }
+.card:hover { border-color: var(--muted); transform: translateY(-2px); }
+.card p { color: var(--muted); font-size: 15px; margin: 8px 0 0; flex: 1; }
+.card .head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.card .head a { font-size: 13px; white-space: nowrap; }
+.card.wide { grid-column: 1 / -1; }
+
+/* skills */
+.skills { display: grid; grid-template-columns: 150px 1fr; gap: 14px 20px; }
+.skills dt { color: var(--muted); font-size: 14px; padding-top: 3px; }
+.skills dd { margin: 0; }
+.skills .tags { margin-top: 0; }
+@media (max-width: 600px) { .skills { grid-template-columns: 1fr; gap: 4px; } .skills dd { margin-bottom: 14px; } }
+
+.edu p { margin: 4px 0 0; color: var(--muted); font-size: 15px; }
+.edu .item { margin-bottom: 22px; }
+
+/* contact */
+.contact p { color: var(--muted); max-width: 560px; margin: 0 0 22px; }
+footer { padding: 32px 0 48px; color: var(--muted); font-size: 13px; border-top: 1px solid var(--line); }
+</style>
+<script>
+  try { const t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top">Abdelrahman Ahmed</a>
+    <div class="links">
+      <a class="opt" href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a class="opt" href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+      <button id="theme" aria-label="Toggle dark mode" title="Toggle dark mode">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<main class="wrap" id="top">
+
+<header class="hero">
+  <div class="eyebrow">Senior Software Engineer · Backend</div>
+  <h1>I build backend systems that real users depend on.</h1>
+  <p class="lede">I'm Abdelrahman, a backend engineer in Cairo working in Java 21 and Spring Boot. I build microservices, event-driven systems and APIs for telecom consumer apps and enterprise billing platforms, and I like tracing production problems to their real cause.</p>
+  <div class="cta">
+    <a class="btn primary" href="mailto:abdelrahmanaabdelmalek@gmail.com">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>Email me</a>
+    <a class="btn" href="https://www.linkedin.com/in/abdulrahmansameerjr" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>LinkedIn</a>
+    <a class="btn" href="https://github.com/abdusamir" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2 0-.4-.5-1.6.2-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"/></svg>GitHub</a>
+  </div>
+  <div class="status"><span class="dot"></span>Open to remote roles and relocation (Europe, Gulf)</div>
+</header>
+
+<section id="experience">
+  <h2>Experience</h2>
+
+  <div class="job">
+    <div class="when">Apr 2026 – Present</div>
+    <div>
+      <h3>Senior Software Engineer</h3>
+      <div class="org">VOIS · Remote</div>
+      <ul>
+        <li>Backend for the My Vodafone consumer app (Italy): 10+ Java 21 / Spring Boot microservices on AWS EKS, built API-first with OpenAPI, MongoDB, Redis and Kafka.</li>
+        <li>Integrated 7+ home-router models from 2 vendors behind a single API using a Strategy/Factory design, and shipped a QR-code onboarding endpoint for EasyMesh boosters.</li>
+        <li>Root-caused a production incident to a key collision affecting ~15,000 configuration rows, redesigned the key and added safe cleanup of stale data.</li>
+        <li>Fixed 230+ Checkstyle violations across 60+ files with all 312 tests green to unblock a release, and built 6 Claude Code agent skills that automate repeated team work.</li>
+      </ul>
+      <div class="tags"><span class="tag">Java 21</span><span class="tag">Spring Boot</span><span class="tag">AWS EKS</span><span class="tag">Kafka</span><span class="tag">MongoDB</span><span class="tag">Redis</span><span class="tag">Datadog</span></div>
+    </div>
+  </div>
+
+  <div class="job">
+    <div class="when">May 2025 – Apr 2026</div>
+    <div>
+      <h3>Software Engineer (Mid-level)</h3>
+      <div class="org">BitBang LLC · Cairo</div>
+      <ul>
+        <li>Backend services for an enterprise billing platform: subscription lifecycle, expiry handling and tracking.</li>
+        <li>Optimized high-volume background jobs with multi-threading, locking and error aggregation.</li>
+        <li>Refactored complex entity relationships and delivered strictly validated REST APIs for frontend and admin systems.</li>
+      </ul>
+      <div class="tags"><span class="tag">Spring Boot</span><span class="tag">PostgreSQL</span><span class="tag">RabbitMQ</span><span class="tag">JPA</span></div>
+    </div>
+  </div>
+
+  <div class="job">
+    <div class="when">Aug 2022 – Jun 2025</div>
+    <div>
+      <h3>Software Engineer</h3>
+      <div class="org">Ejada Systems · Cairo</div>
+      <ul>
+        <li>Designed and built scalable Spring Boot backends for enterprise applications, deployed as microservices on OpenShift.</li>
+        <li>Introduced Kafka for event-driven, real-time processing and Redis caching to keep APIs fast under peak load.</li>
+        <li>Refactored subscription workflows to remove circular dependencies, and added automated test coverage for core services.</li>
+      </ul>
+      <div class="tags"><span class="tag">Spring Boot</span><span class="tag">Kafka</span><span class="tag">Redis</span><span class="tag">PostgreSQL</span><span class="tag">OpenShift</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <h2>Projects</h2>
+  <div class="grid">
+    <div class="card wide">
+      <div class="head"><h3>Claude Code agent skills for a backend team</h3></div>
+      <p>Six Claude Code skills with Python tooling that automate repeated engineering work: incident triage (condensing Datadog logs, redacting JWTs, matching known failure patterns), test-environment validation with PASS/FAIL reports, a CI doctor, a release check and a workspace status report.</p>
+      <div class="tags"><span class="tag">Claude Code</span><span class="tag">Python</span><span class="tag">Datadog</span><span class="tag">CI/CD</span></div>
+    </div>
+    <div class="card wide">
+      <div class="head"><h3>AI-assisted job search pipeline</h3><a href="https://github.com/ai-job-search-dev/ai-job-search" target="_blank" rel="noopener">Framework ↗</a></div>
+      <p>I run my own job search on an open-source Claude Code framework that I configured and extended: a structured candidate profile, scraping and ranking of postings from European and Gulf job boards, a drafter–reviewer loop that tailors LaTeX CVs and cover letters per role, and workflow rules I added, such as excluding my current employer and verifying the employer's own application link.</p>
+      <div class="tags"><span class="tag">Claude Code</span><span class="tag">LaTeX</span><span class="tag">Python</span><span class="tag">Agent workflows</span></div>
+    </div>
+    <div class="card">
+      <div class="head"><h3>Accelerating Scientific Applications with GPUs</h3></div>
+      <p>Bachelor's thesis at Ain Shams University: speeding up scientific workloads by moving them onto the GPU with CUDA and OpenCL.</p>
+      <div class="tags"><span class="tag">CUDA</span><span class="tag">OpenCL</span><span class="tag">C++</span></div>
+    </div>
+    <div class="card">
+      <div class="head"><h3>GPS tracking system</h3><a href="https://github.com/abdusamir/GPS-Tracking-System-with-Tiva-C-and-Python" target="_blank" rel="noopener">Code ↗</a></div>
+      <p>A Tiva C microcontroller reads NMEA data from a NEO-6M GPS module over UART and logs coordinates each second. A Python script then parses the log and plots the route on a map with Folium.</p>
+      <div class="tags"><span class="tag">Embedded C</span><span class="tag">UART</span><span class="tag">Python</span><span class="tag">Folium</span></div>
+    </div>
+    <div class="card">
+      <div class="head"><h3>XML Editor</h3><a href="https://github.com/abdusamir/XML-Editor" target="_blank" rel="noopener">Code ↗</a></div>
+      <p>A Qt desktop app that checks XML for errors and corrects them, prettifies and minifies files, converts XML to JSON, and compresses and decompresses files.</p>
+      <div class="tags"><span class="tag">C++</span><span class="tag">Qt</span><span class="tag">Data structures</span></div>
+    </div>
+    <div class="card">
+      <div class="head"><h3>KenKen puzzle solver</h3><a href="https://github.com/abdusamir/KenKen" target="_blank" rel="noopener">Code ↗</a></div>
+      <p>Generates KenKen puzzles and solves them as constraint satisfaction problems, comparing backtracking, forward checking and arc consistency. A Flask API serves the solver to a React front end.</p>
+      <div class="tags"><span class="tag">Python</span><span class="tag">Flask</span><span class="tag">React</span><span class="tag">CSP</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <h2>Skills</h2>
+  <dl class="skills">
+    <dt>Languages</dt>
+    <dd class="tags"><span class="tag">Java 21</span><span class="tag">Python</span><span class="tag">TypeScript</span><span class="tag">JavaScript</span><span class="tag">C++</span><span class="tag">CUDA</span></dd>
+    <dt>Backend</dt>
+    <dd class="tags"><span class="tag">Spring Boot</span><span class="tag">Hibernate / JPA</span><span class="tag">REST / OpenAPI</span><span class="tag">Microservices</span><span class="tag">Node.js</span></dd>
+    <dt>Data &amp; messaging</dt>
+    <dd class="tags"><span class="tag">PostgreSQL</span><span class="tag">MongoDB</span><span class="tag">Redis</span><span class="tag">Kafka</span><span class="tag">RabbitMQ</span><span class="tag">MySQL</span></dd>
+    <dt>Cloud &amp; DevOps</dt>
+    <dd class="tags"><span class="tag">AWS</span><span class="tag">Kubernetes</span><span class="tag">Docker</span><span class="tag">OpenShift</span><span class="tag">Terraform</span><span class="tag">Jenkins</span><span class="tag">GitHub Actions</span></dd>
+    <dt>Quality &amp; tooling</dt>
+    <dd class="tags"><span class="tag">JUnit 5</span><span class="tag">Mockito</span><span class="tag">WireMock</span><span class="tag">SonarQube</span><span class="tag">Datadog</span><span class="tag">Claude Code</span></dd>
+  </dl>
+</section>
+
+<section id="education" class="edu">
+  <h2>Education</h2>
+  <div class="item">
+    <h3>B.Sc. Computer Engineering and Software Systems</h3>
+    <p>Ain Shams University, Cairo · 2017 – 2022</p>
+  </div>
+  <div class="item">
+    <h3>Advanced Full-Stack JavaScript Web Development Nanodegree</h3>
+    <p>Udacity · 2022</p>
+  </div>
+  <div class="item">
+    <h3>Professional Front-End Web Development Nanodegree</h3>
+    <p>Udacity</p>
+  </div>
+</section>
+
+<section id="contact" class="contact">
+  <h2>Contact</h2>
+  <p>I'm open to backend roles, remote or with relocation to Europe or the Gulf. The quickest way to reach me is email.</p>
+  <div class="cta">
+    <a class="btn primary" href="mailto:abdelrahmanaabdelmalek@gmail.com">abdelrahmanaabdelmalek@gmail.com</a>
+    <a class="btn" href="https://www.linkedin.com/in/abdulrahmansameerjr" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="btn" href="https://github.com/abdusamir" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</section>
+
+</main>
+
+<footer><div class="wrap">© <span id="yr">2026</span> Abdelrahman Ahmed · Cairo, Egypt</div></footer>
+
+<script>
+  document.getElementById("yr").textContent = new Date().getFullYear();
+  document.getElementById("theme").addEventListener("click", () => {
+    const root = document.documentElement;
+    const dark = root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+    root.dataset.theme = dark ? "light" : "dark";
+    try { localStorage.setItem("theme", root.dataset.theme); } catch (e) {}
+  });
+</script>
+</body>
+</html>
